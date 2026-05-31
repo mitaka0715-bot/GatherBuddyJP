@@ -1,6 +1,6 @@
 # GatherBuddy JP
 
-GatherBuddy JP は、GatherBuddy Reborn JP fork を元にした採掘・園芸向けの Dalamud プラグインです。
+GatherBuddy JP は、採掘師・園芸師向けに作った日本語ファーストの採集ナビゲーションプラグインです。
 
 ## 概要
 

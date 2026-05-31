@@ -25,8 +25,8 @@ $Author = "General Headquarters"
 $RepoUrl = "https://github.com/mitaka0715-bot/GatherBuddyJP"
 $IconUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png"
 $ZipUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip"
-$Punchline = "Miner and botanist focused GatherBuddy JP fork."
-$Description = "A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build."
+$Punchline = "Japanese-first gathering navigator for miners and botanists."
+$Description = "GatherBuddy JP is a Japanese-first gathering navigation plugin for miners and botanists. It provides item search, route planning, teleport-assisted travel, auto-gather lists, and vnavmesh-assisted movement."
 
 New-Item -ItemType Directory -Force -Path $LogDir, $OfficialDir, $DevDir | Out-Null
 
