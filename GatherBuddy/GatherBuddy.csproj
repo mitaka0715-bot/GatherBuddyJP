@@ -5,7 +5,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>GatherBuddy</RootNamespace>
     <AssemblyName>GatherBuddyJP</AssemblyName>
-    <Version>7.5.0.6</Version>
+    <Version>7.5.0.7</Version>
     <Company>SoftOtter</Company>
     <Product>GatherBuddy JP</Product>
     <Copyright>Copyright (c) General Headquarters 2026</Copyright>
@@ -24,7 +24,7 @@
     <Author>General Headquarters</Author>
     <Description>GatherBuddy JP is a Japanese-first gathering navigation plugin for miners and botanists. It provides item search, route planning, teleport-assisted travel, auto-gather lists, and vnavmesh-assisted movement.</Description>
     <Punchline>Japanese-first gathering navigator for miners and botanists.</Punchline>
-    <IconUrl>https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon.png</IconUrl>
+    <IconUrl>https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon-v2.png</IconUrl>
 	</PropertyGroup>
 
   <ItemGroup>
