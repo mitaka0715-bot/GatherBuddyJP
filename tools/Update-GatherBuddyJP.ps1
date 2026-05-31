@@ -126,35 +126,32 @@ function Update-RepoJson {
 function New-CleanPluginZip {
     $releaseDir = Join-Path $RepoRoot "release"
     $zipPath = Join-Path $RepoRoot "latest.zip"
-    $stageDir = Join-Path $RepoRoot "release_zip_stage"
+    $packagedDir = Join-Path $RepoRoot "GatherBuddy\bin\Release\$InternalName"
 
     if (Test-Path -LiteralPath $releaseDir) {
         Remove-Item -LiteralPath $releaseDir -Recurse -Force
-    }
-    if (Test-Path -LiteralPath $stageDir) {
-        Remove-Item -LiteralPath $stageDir -Recurse -Force
     }
     if (Test-Path -LiteralPath $zipPath) {
         Remove-Item -LiteralPath $zipPath -Force
     }
 
-    New-Item -ItemType Directory -Force -Path $releaseDir, $stageDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
+
+    $packagedZip = Join-Path $packagedDir "latest.zip"
+    $packagedManifest = Join-Path $packagedDir "$InternalName.json"
+    if (!(Test-Path -LiteralPath $packagedZip) -or !(Test-Path -LiteralPath $packagedManifest)) {
+        throw "DalamudPackager output not found in $packagedDir"
+    }
+
+    Copy-Item -LiteralPath $packagedZip -Destination $zipPath -Force
+    Copy-Item -LiteralPath $packagedManifest -Destination (Join-Path $releaseDir "$InternalName.json") -Force
     $outputDir = Join-Path $RepoRoot "GatherBuddy\bin\Release"
     Get-ChildItem -LiteralPath $outputDir -File |
         Where-Object { $_.Extension -in ".dll", ".json", ".pdb" -or $_.Name -eq "$InternalName.deps.json" } |
         Copy-Item -Destination $releaseDir -Force
 
-    Copy-Item -LiteralPath (Join-Path $RepoRoot "GatherBuddy\GatherBuddyReborn.json") -Destination (Join-Path $releaseDir "$InternalName.json") -Force
     Copy-Item -LiteralPath (Join-Path $RepoRoot "README.md") -Destination (Join-Path $releaseDir "README.md") -Force
     Copy-Item -LiteralPath (Join-Path $RepoRoot "images\icon.png") -Destination (Join-Path $releaseDir "icon.png") -Force
-
-    Get-ChildItem -LiteralPath $releaseDir -File |
-        Where-Object { $_.Name -ne "latest.zip" } |
-        Copy-Item -Destination $stageDir -Force
-
-    $zipItems = Get-ChildItem -LiteralPath $stageDir -File
-    Compress-Archive -LiteralPath $zipItems.FullName -DestinationPath $zipPath -CompressionLevel Optimal
-    Remove-Item -LiteralPath $stageDir -Recurse -Force
 }
 
 function Deploy-Plugin {
