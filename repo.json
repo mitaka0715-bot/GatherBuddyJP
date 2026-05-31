@@ -28,11 +28,11 @@
         "IsHide":  false,
         "IsTestingExclusive":  false,
         "DownloadCount":  0,
-        "DownloadLinkInstall":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "DownloadLinkUpdate":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "DownloadLinkTesting":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "LastUpdate":  1780247130,
-        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png",
+        "DownloadLinkInstall":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+        "DownloadLinkUpdate":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+        "DownloadLinkTesting":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+        "LastUpdate":  1780247182,
+        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png?v=20260601",
         "AcceptsFeedback":  true
     }
 ]
