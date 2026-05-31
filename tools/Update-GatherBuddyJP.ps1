@@ -88,7 +88,6 @@ function Ensure-JpMetadata {
 
 function Update-RepoJson {
     $manifestPath = Join-Path $RepoRoot "manifest.json"
-    $repoPath = Join-Path $RepoRoot "repo.json"
     $pluginMasterPath = Join-Path $RepoRoot "pluginmaster.json"
     $csprojPath = Join-Path $RepoRoot "GatherBuddy\GatherBuddy.csproj"
     $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
@@ -121,12 +120,8 @@ function Update-RepoJson {
         IconUrl = $IconUrl
         AcceptsFeedback = $true
     }
-    $visibleStoreJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
-    Save-Utf8NoBom -Path $pluginMasterPath -Text $visibleStoreJson
-
-    $entry.IsHide = $true
-    $hiddenStoreJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
-    Save-Utf8NoBom -Path $repoPath -Text $hiddenStoreJson
+    $storeJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
+    Save-Utf8NoBom -Path $pluginMasterPath -Text $storeJson
 }
 
 function New-CleanPluginZip {
@@ -166,14 +161,13 @@ function Deploy-Plugin {
         New-Item -ItemType Directory -Force -Path $dir | Out-Null
         Get-ChildItem -LiteralPath $releaseDir -File | Copy-Item -Destination $dir -Force
         Copy-Item -LiteralPath (Join-Path $RepoRoot "latest.zip") -Destination (Join-Path $dir "latest.zip") -Force
-        Copy-Item -LiteralPath (Join-Path $RepoRoot "repo.json") -Destination (Join-Path $dir "repo.json") -Force
         Copy-Item -LiteralPath (Join-Path $RepoRoot "pluginmaster.json") -Destination (Join-Path $dir "pluginmaster.json") -Force
     }
 }
 
 function Test-PublicFiles {
     $forbiddenPattern = ("Black" + "Ash|{0}|{1}|{2}" -f [char]0x8B17, [char]0x8768, [char]0xFFE0)
-    $forbidden = rg -n $forbiddenPattern -S README.md repo.json manifest.json "GatherBuddy\GatherBuddyReborn.json" "GatherBuddy\GatherBuddy.csproj" images 2>$null
+    $forbidden = rg -n $forbiddenPattern -S README.md pluginmaster.json manifest.json "GatherBuddy\GatherBuddyReborn.json" "GatherBuddy\GatherBuddy.csproj" images 2>$null
     if ($LASTEXITCODE -eq 0) {
         throw "Forbidden or mojibake text found:`n$forbidden"
     }
@@ -262,7 +256,10 @@ try {
     if ($Publish -and ($status.built -or $status.applied -or $Force)) {
         $changes = git status --porcelain
         if ($changes) {
-            Invoke-Git add manifest.json repo.json pluginmaster.json latest.zip README.md images/icon.png images/icon-512.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
+            Invoke-Git add manifest.json pluginmaster.json latest.zip README.md images/icon.png images/icon-512.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
+            if (Test-Path -LiteralPath (Join-Path $RepoRoot "repo.json")) {
+                Invoke-Git rm repo.json
+            }
             $shortUpstream = (git rev-parse --short upstream/main)
             Invoke-Git commit -m "Update GatherBuddy JP for upstream $shortUpstream"
         }
