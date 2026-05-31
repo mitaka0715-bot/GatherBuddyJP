@@ -89,6 +89,7 @@ function Ensure-JpMetadata {
 function Update-RepoJson {
     $manifestPath = Join-Path $RepoRoot "manifest.json"
     $repoPath = Join-Path $RepoRoot "repo.json"
+    $pluginMasterPath = Join-Path $RepoRoot "pluginmaster.json"
     $csprojPath = Join-Path $RepoRoot "GatherBuddy\GatherBuddy.csproj"
     $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
     $csprojXml = [xml](Get-Content -LiteralPath $csprojPath -Raw)
@@ -120,7 +121,9 @@ function Update-RepoJson {
         IconUrl = $IconUrl
         AcceptsFeedback = $true
     }
-    Save-Utf8NoBom -Path $repoPath -Text ((ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine)
+    $storeJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
+    Save-Utf8NoBom -Path $repoPath -Text $storeJson
+    Save-Utf8NoBom -Path $pluginMasterPath -Text $storeJson
 }
 
 function New-CleanPluginZip {
@@ -161,6 +164,7 @@ function Deploy-Plugin {
         Get-ChildItem -LiteralPath $releaseDir -File | Copy-Item -Destination $dir -Force
         Copy-Item -LiteralPath (Join-Path $RepoRoot "latest.zip") -Destination (Join-Path $dir "latest.zip") -Force
         Copy-Item -LiteralPath (Join-Path $RepoRoot "repo.json") -Destination (Join-Path $dir "repo.json") -Force
+        Copy-Item -LiteralPath (Join-Path $RepoRoot "pluginmaster.json") -Destination (Join-Path $dir "pluginmaster.json") -Force
     }
 }
 
@@ -255,7 +259,7 @@ try {
     if ($Publish -and ($status.built -or $status.applied -or $Force)) {
         $changes = git status --porcelain
         if ($changes) {
-            Invoke-Git add manifest.json repo.json latest.zip README.md images/icon.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
+            Invoke-Git add manifest.json repo.json pluginmaster.json latest.zip README.md images/icon.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
             $shortUpstream = (git rev-parse --short upstream/main)
             Invoke-Git commit -m "Update GatherBuddy JP for upstream $shortUpstream"
         }
