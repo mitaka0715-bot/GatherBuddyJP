@@ -8,7 +8,7 @@
     <Version>7.5.0.0</Version>
     <Company>SoftOtter</Company>
     <Product>GatherBuddy JP</Product>
-    <Copyright>Copyright © 2026</Copyright>
+    <Copyright>Copyright 郢晢ｽｻ郢ｧ謇假ｽｽ・ｽ繝ｻ・ｩ 2026</Copyright>
     <Deterministic>true</Deterministic>
     <OutputType>Library</OutputType>
     <WarningLevel>4</WarningLevel>
@@ -22,8 +22,8 @@
     <Platforms>x64</Platforms>
     <Name>GatherBuddy JP</Name>
     <Author>General Headquarters</Author>
-    <Description>Japanese-localized miner/botanist fork based on GatherBuddy Reborn. Helps with gathering locations, weather, timers, alarms, and optional automated gathering via vnavmesh.</Description>
-    <Punchline>採掘・園芸向け GatherBuddy JP fork.</Punchline>
+    <Description>A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build.</Description>
+    <Punchline>Miner and botanist focused GatherBuddy JP fork.</Punchline>
 	</PropertyGroup>
 
   <ItemGroup>

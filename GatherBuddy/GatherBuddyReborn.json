@@ -1,28 +1,28 @@
-﻿{
-  "Author": "General Headquarters",
-  "Name": "GatherBuddy JP",
-  "InternalName": "GatherBuddyJP",
-  "RepoUrl": "https://github.com/mitaka0715-bot/GatherBuddyJP",
-  "Description": "Japanese-localized miner/botanist fork based on GatherBuddy Reborn. Helps with gathering locations, weather, timers, alarms, and optional automated gathering via vnavmesh.",
-  "ApplicableVersion": "any",
-  "DalamudApiLevel": 15,
-  "TestingDalamudApiLevel": 15,
-  "Tags": [
-    "Gathering",
-    "Mining",
-    "Botany",
-    "Weather",
-    "Alarms",
-    "Automatic",
-    "Forager",
-    "Japanese"
-  ],
-  "CategoryTags": [
-    "Jobs",
-    "Utility"
-  ],
-  "IsTestingExclusive": false,
-  "IconUrl": "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png",
-  "Punchline": "Miner and botanist focused GatherBuddy JP fork.",
-  "AcceptsFeedback": true
+{
+    "Author":  "General Headquarters",
+    "Name":  "GatherBuddy JP",
+    "InternalName":  "GatherBuddyJP",
+    "RepoUrl":  "https://github.com/mitaka0715-bot/GatherBuddyJP",
+    "Description":  "A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build.",
+    "ApplicableVersion":  "any",
+    "DalamudApiLevel":  15,
+    "TestingDalamudApiLevel":  15,
+    "Tags":  [
+                 "Gathering",
+                 "Mining",
+                 "Botany",
+                 "Weather",
+                 "Alarms",
+                 "Automatic",
+                 "Forager",
+                 "Japanese"
+             ],
+    "CategoryTags":  [
+                         "Jobs",
+                         "Utility"
+                     ],
+    "IsTestingExclusive":  false,
+    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png",
+    "Punchline":  "Miner and botanist focused GatherBuddy JP fork.",
+    "AcceptsFeedback":  true
 }
