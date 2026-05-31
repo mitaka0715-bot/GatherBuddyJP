@@ -222,9 +222,6 @@ public partial class Interface
             ImGui.SetNextItemWidth(100f * Scale);
             if (ImGui.InputInt("##quantity", ref quantity, 1, 10))
                 _plugin.AutoGatherListsManager.ChangeQuantity(list, item, (uint)quantity);
-            ImGui.SameLine();
-            if (DrawLocationInput(item, list.PreferredLocations.GetValueOrDefault(item), out var newLoc))
-                _plugin.AutoGatherListsManager.ChangePreferredLocation(list, item, newLoc);
             group.Dispose();
 
             if (!filteringItems)
@@ -261,10 +258,6 @@ public partial class Interface
         if (changeIndex >= 0)
             _plugin.AutoGatherListsManager.ChangeItem(list, gatherables[changeItemIndex], changeIndex);
 
-        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), IconButtonSize, "選択したアイテムをリストに追加します。", false, true))
-            _plugin.AutoGatherListsManager.AddItem(list, gatherables[_autoGatherListsCache.NewGatherableIdx]);
-
-        ImGui.SameLine();
         var allEnabled = list.Items.All(i => list.EnabledItems[i]);
         if (ImGui.Checkbox("##AllEnabled", ref allEnabled))
         {
@@ -272,13 +265,6 @@ public partial class Interface
                 _plugin.AutoGatherListsManager.ChangeEnabled(list, i, allEnabled);
         }
         ImGuiUtil.HoverTooltip(allEnabled ? "リスト内の全アイテムを無効化します。" : "リスト内の全アイテムを有効化します。");
-
-        ImGui.SameLine();
-        if (selector.Draw(_autoGatherListsCache.NewGatherableIdx, out var idx))
-        {
-            _autoGatherListsCache.NewGatherableIdx = idx;
-            _plugin.AutoGatherListsManager.AddItem(list, gatherables[_autoGatherListsCache.NewGatherableIdx]);
-        }
     }
 
     private static bool DrawAutoGatherIconButton(string id, string iconText, Vector2 size, string tooltip, bool disabled = false)
