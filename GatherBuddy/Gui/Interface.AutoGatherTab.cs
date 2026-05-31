@@ -110,8 +110,6 @@ public partial class Interface
         }
 
         public int             NewGatherableIdx;
-        public bool            EditName;
-        public bool            EditDesc;
         public string          ItemFilter = string.Empty;
         public AutoGatherList? ItemFilterList;
     }
@@ -126,159 +124,12 @@ public partial class Interface
 
     private void DrawAutoGatherListsLine()
     {
-        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Copy.ToIconString(), IconButtonSize, "現在の自動採集リストをクリップボードへコピーします。",
-                _autoGatherListsCache.Selector.Selected == null, true))
-        {
-            var list = _autoGatherListsCache.Selector.Selected!;
-            try
-            {
-                var s = new AutoGatherList.Config(list).ToBase64();
-                ImGui.SetClipboardText(s);
-                Communicator.PrintClipboardMessage("自動採集リスト ", list.Name);
-            }
-            catch (Exception e)
-            {
-                Communicator.PrintClipboardMessage("自動採集リスト ", list.Name, e);
-            }
-        }
-
-        if (GatherBuddy.AutoGather.ArtisanExporter.ArtisanAssemblyEnabled)
-        {
-            if (ImGuiUtil.DrawDisabledButton("Artisanからインポート", Vector2.Zero,
-                    "ArtisanのリストをGatherBuddy JPへ取り込みます。\n取り込むリストをドロップダウンから選択します。\nリスト名をクリックすると新しい自動採集リストが作成されます。",
-                    !GatherBuddy.AutoGather.ArtisanExporter.ArtisanAssemblyEnabled))
-            {
-                ImGui.OpenPopup($"artisanImport");
-            }
-
-            if (ImGui.BeginPopup($"artisanImport"))
-            {
-                var lists = GatherBuddy.AutoGather.ArtisanExporter.GetArtisanListNames();
-
-                float rowHeight       = ImGui.GetTextLineHeightWithSpacing();
-                float childPaddingY   = ImGui.GetStyle().WindowPadding.Y * 2f;
-                float totalListHeight = lists.Count * rowHeight + childPaddingY;
-                float totalListWidth  = lists.Max(n => ImGui.CalcTextSize(n.Value).X) + 40;
-
-                float maxHeight   = ImGui.GetIO().DisplaySize.Y * 0.4f;
-                float childHeight = Math.Min(totalListHeight, maxHeight);
-
-                if (ImGui.BeginChild("ArtisanListsChild", new Vector2(totalListWidth, childHeight), true))
-                {
-                    foreach (var kvp in lists)
-                    {
-                        if (ImGui.Selectable($"{kvp.Value}##{kvp.Key}"))
-                        {
-                            Communicator.Print($"Artisanから '{kvp.Value}' をインポートしています...");
-                            GatherBuddy.AutoGather.ArtisanExporter.StartArtisanImport(kvp);
-                        }
-
-                        ImGuiUtil.HoverTooltip($"{kvp.Value} ({kvp.Key})\nクリックで新しい自動採集リストへ取り込みます");
-                    }
-                }
-
-                ImGui.EndChild();
-                ImGui.EndPopup();
-            }
-        }
-
-        if (ImGuiUtil.DrawDisabledButton("TeamCraftからインポート", Vector2.Zero, "クリップボードのTeamCraft形式データからリストを作成します",
-                _autoGatherListsCache.Selector.Selected == null))
-        {
-            var clipboardText = ImGuiUtil.GetClipboardText();
-            if (!string.IsNullOrEmpty(clipboardText))
-            {
-                try
-                {
-                    // Regex pattern
-                    var pattern = @"\b(\d+)x\s(.+)\b";
-                    var matches = Regex.Matches(clipboardText, pattern);
-
-                    var list = _autoGatherListsCache.Selector.Selected!;
-
-                    Dictionary<ReadOnlySeString, uint>? diademItems = null;
-                    Lumina.Excel.ExcelSheet<Lumina.Excel.Sheets.Item>? itemSheet = null;
-                    Dictionary<string, IGatherable> normalItems = new(GatherBuddy.GameData.Gatherables.Count + GatherBuddy.GameData.Fishes.Count);
-                    foreach (var item in ((IEnumerable<IGatherable>)GatherBuddy.GameData.Gatherables.Values).Concat(GatherBuddy.GameData.Fishes.Values))
-                        normalItems[item.Name[GatherBuddy.Language]] = item;
-
-                    foreach (Match match in matches)
-                    {
-                        var quantity = uint.Parse(match.Groups[1].Value);
-                        var itemName = match.Groups[2].Value;
-
-                        if (normalItems.TryGetValue(itemName, out var item))
-                        {
-                            if (!item.Locations.Any())
-                                continue;
-                        }
-                        else
-                        {
-                            itemSheet ??= Dalamud.GameData.GetExcelSheet<Lumina.Excel.Sheets.Item>(GatherBuddy.Language);
-                            diademItems ??= Diadem.ApprovedToRawItemIds
-                                .Select(kv => (itemSheet.GetRow(kv.Key).Name, kv.Value))
-                                .ToDictionary();
-
-                            if (!diademItems.TryGetValue(itemName, out var rawId))
-                                continue;
-
-                            if (GatherBuddy.GameData.Gatherables.TryGetValue(rawId, out var gatherable))
-                                item = gatherable;
-                            else if (GatherBuddy.GameData.Fishes.TryGetValue(rawId, out var fish))
-                                item = fish;
-                            else
-                                continue;
-                        }
-
-                        if(!list.Add(item, quantity))
-                            list.SetQuantity(item, quantity + list.Quantities[item]);
-                    }
-
-                    _plugin.AutoGatherListsManager.Save();
-
-                    if (list.Enabled)
-                        _plugin.AutoGatherListsManager.SetActiveItems();
-                }
-                catch (Exception e)
-                {
-                    Communicator.PrintClipboardMessage("自動採集リストのインポートに失敗しました", e.ToString());
-                }
-            }
-        }
-
-        ImGui.SetCursorPosX(ImGui.GetWindowSize().X - 50);
-        string agHelpText =
-            "場所順ソートを使わない場合、有効なリスト順、リスト内のアイテム順で採集します。\n" +
-            "ただし時間限定の採集場と魚は常に優先されます。\n" +
-            "リストはドラッグ&ドロップで並べ替えできます。\n" +
-            "リスト内のアイテムもドラッグ&ドロップで並べ替えできます。\n" +
-            "アイテムを別リストへドラッグすると移動できます。\n" +
-            "採集ウィンドウではCtrlを押しながら右クリックでアイテムを削除できます。";
-
-
-        ImGuiEx.InfoMarker(agHelpText,                    null, FontAwesomeIcon.InfoCircle.ToIconString(), false);
-        ImGuiEx.InfoMarker("自動採集サポートDiscord", null, FontAwesomeIcon.Comments.ToIconString(),   false);
-        if (ImGuiEx.HoveredAndClicked())
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "https://discord.gg/p54TZMPnC9",
-                UseShellExecute = true
-            });
-        }
     }
 
     private void DrawAutoGatherList(AutoGatherList list)
     {
-        if (ImGuiUtil.DrawEditButtonText(0, _autoGatherListsCache.EditName ? list.Name : CheckUnnamed(list.Name), out var newName,
-                ref _autoGatherListsCache.EditName, IconButtonSize, SetInputWidth, 64))
-            _plugin.AutoGatherListsManager.ChangeName(list, newName);
-        if (ImGuiUtil.DrawEditButtonText(1, _autoGatherListsCache.EditDesc ? list.Description : CheckUndescribed(list.Description),
-                out var newDesc, ref _autoGatherListsCache.EditDesc, IconButtonSize, 2 * SetInputWidth, 128))
-            _plugin.AutoGatherListsManager.ChangeDescription(list, newDesc);
-
         var tmp = list.Enabled;
-        if (ImGui.Checkbox("有効##list", ref tmp) && tmp != list.Enabled)
+        if (ImGui.Checkbox("このリストを使う##list", ref tmp) && tmp != list.Enabled)
             _plugin.AutoGatherListsManager.ToggleList(list);
 
         ImGui.SameLine();
