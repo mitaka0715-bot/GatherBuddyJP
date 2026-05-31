@@ -1,38 +1,38 @@
-﻿[
-    {
-        "Author":  "General Headquarters",
-        "Name":  "GatherBuddy JP",
-        "InternalName":  "GatherBuddyJP",
-        "AssemblyVersion":  "7.5.0.0",
-        "TestingAssemblyVersion":  null,
-        "RepoUrl":  "https://github.com/mitaka0715-bot/GatherBuddyJP",
-        "ApplicableVersion":  "any",
-        "DalamudApiLevel":  15,
-        "TestingDalamudApiLevel":  15,
-        "Punchline":  "Miner and botanist focused GatherBuddy JP fork.",
-        "Description":  "A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build.",
-        "Tags":  [
-                     "Gathering",
-                     "Mining",
-                     "Botany",
-                     "Weather",
-                     "Alarms",
-                     "Automatic",
-                     "Forager",
-                     "Japanese"
-                 ],
-        "CategoryTags":  [
-                             "Jobs",
-                             "Utility"
-                         ],
-        "IsHide":  false,
-        "IsTestingExclusive":  false,
-        "DownloadCount":  0,
-        "DownloadLinkInstall":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "DownloadLinkUpdate":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "DownloadLinkTesting":  "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
-        "LastUpdate":  "1780244688",
-        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png",
-        "AcceptsFeedback":  true
-    }
+[
+  {
+    "Author": "General Headquarters",
+    "Name": "GatherBuddy JP",
+    "InternalName": "GatherBuddyJP",
+    "AssemblyVersion": "7.5.0.0",
+    "TestingAssemblyVersion": null,
+    "RepoUrl": "https://github.com/mitaka0715-bot/GatherBuddyJP",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 15,
+    "TestingDalamudApiLevel": 15,
+    "Punchline": "Miner and botanist focused GatherBuddy JP fork.",
+    "Description": "A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build.",
+    "Tags": [
+      "Gathering",
+      "Mining",
+      "Botany",
+      "Weather",
+      "Alarms",
+      "Automatic",
+      "Forager",
+      "Japanese"
+    ],
+    "CategoryTags": [
+      "Jobs",
+      "Utility"
+    ],
+    "IsHide": false,
+    "IsTestingExclusive": false,
+    "DownloadCount": 0,
+    "DownloadLinkInstall": "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
+    "DownloadLinkTesting": "https://github.com/mitaka0715-bot/GatherBuddyJP/raw/main/latest.zip",
+    "LastUpdate": 1780245035,
+    "IconUrl": "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png",
+    "AcceptsFeedback": true
+  }
 ]
