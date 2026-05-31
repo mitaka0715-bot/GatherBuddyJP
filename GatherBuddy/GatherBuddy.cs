@@ -40,7 +40,7 @@ namespace GatherBuddy;
 
 public partial class GatherBuddy : IDalamudPlugin
 {
-    public const string InternalName = "GatherBuddyReborn";
+    public const string InternalName = "GatherBuddyJP";
 
     public string Name
         => InternalName;
@@ -197,8 +197,6 @@ public partial class GatherBuddy : IDalamudPlugin
             NativeItemTooltipBridge = new Gui.NativeItemTooltipBridge();
             WindowSystem.AddWindow(Interface);
             WindowSystem.AddWindow(new GatherWindow(this));
-            WindowSystem.AddWindow(new FishTimerWindow(FishRecorder));
-            WindowSystem.AddWindow(new SpearfishingHelper(GameData));
             WindowSystem.AddWindow(_vulcanWindow);
             WindowSystem.AddWindow(_craftingStatusWindow);
             WindowSystem.AddWindow(_craftingMaterialsWindow);
@@ -265,9 +263,9 @@ public partial class GatherBuddy : IDalamudPlugin
         {
             if (plugin.Name == "GatherBuddy" && plugin.IsLoaded)
             {
-                Log.Error("First Party GatherBuddy detected. Please uninstall it to use this version.");
+                Log.Error("First Party GatherBuddy detected. Please uninstall it to use GatherBuddy JP.");
                 Communicator.PrintError(
-                    "[GatherBuddy Reborn] First Party GatherBuddy detected. Please uninstall it and restart your game to use this version.");
+                    "[GatherBuddy JP] 元の GatherBuddy が読み込まれています。GatherBuddy JP を使う場合は元版を外してからゲームを再起動してください。");
                 break;
             }
         }

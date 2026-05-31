@@ -350,7 +350,7 @@ public partial class Interface
     private void DrawAlarmTab()
     {
         using var id  = ImRaii.PushId("Alarms");
-        using var tab = ImRaii.TabItem("Alarms");
+        using var tab = ImRaii.TabItem("アラーム");
         ImGuiUtil.HoverTooltip("Do you often find yourself late for a very important date with no time to say hello or goodbye?\n"
           + "Set up your very own alarm clock. Viera might even be able to wear it around their neck.");
         if (!tab)

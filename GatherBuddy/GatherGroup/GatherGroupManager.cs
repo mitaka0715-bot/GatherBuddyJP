@@ -39,7 +39,7 @@ public class GatherGroupManager
     {
         SeStringBuilder b = new();
         b.AddText("Please use with ")
-            .ColoredText("/gathergroup ",                      GatherBuddy.Config.SeColorCommands)
+            .ColoredText("/gbjpgroup ",                         GatherBuddy.Config.SeColorCommands)
             .ColoredText("[Name] ",                            GatherBuddy.Config.SeColorNames)
             .ColoredText("[optional: Eorzea Minute Offset]\n", GatherBuddy.Config.SeColorArguments)
             .AddText("Available groups are:\n");

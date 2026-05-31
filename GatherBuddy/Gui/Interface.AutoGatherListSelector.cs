@@ -93,11 +93,11 @@ public partial class Interface
             ImGui.Spacing();
             ImGui.Separator();
             ImGui.Spacing();
-            ImGui.TextUnformatted("Needs manual acquisition");
+            ImGui.TextUnformatted("手動入手が必要");
             DrawBaitNameList(_baitBuyListResultPopup.SkippedBaitNames);
             ImGui.Spacing();
 
-            if (ImGui.Button("Close", new Vector2(100f * ImGuiHelpers.GlobalScale, 0f)))
+            if (ImGui.Button("閉じる", new Vector2(100f * ImGuiHelpers.GlobalScale, 0f)))
                 _baitBuyListResultPopup = null;
 
             ImGui.End();
@@ -197,7 +197,7 @@ public partial class Interface
         private void AddListButton(Vector2 size)
         {
             const string newListName = "newListName";
-            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), size, "Create a new auto-gather list.", false, true))
+            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), size, "新しい自動採集リストを作成します。", false, true))
                 ImGui.OpenPopup(newListName);
 
             string name = string.Empty;
@@ -211,7 +211,7 @@ public partial class Interface
         private void ImportFromClipboardButton(Vector2 size)
         {
             const string importName = "importListName";
-            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Clipboard.ToIconString(), size, "Import an auto-gather list from clipboard.", false, true))
+            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Clipboard.ToIconString(), size, "クリップボードから自動採集リストをインポートします。", false, true))
                 ImGui.OpenPopup(importName);
 
             string name = string.Empty;
@@ -229,28 +229,28 @@ public partial class Interface
 
         private void MoveUpContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
-            if (ImGui.MenuItem("Move Up"))
+            if (ImGui.MenuItem("上へ移動"))
                 _plugin.AutoGatherListsManager.MoveListUp(leaf);
         }
 
         private void MoveDownContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
-            if (ImGui.MenuItem("Move Down"))
+            if (ImGui.MenuItem("下へ移動"))
                 _plugin.AutoGatherListsManager.MoveListDown(leaf);
         }
 
         private void DeleteListContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
-            if (ImGui.MenuItem("Delete List"))
+            if (ImGui.MenuItem("リストを削除"))
                 _plugin.AutoGatherListsManager.DeleteList(leaf.Value);
         }
 
         private void DuplicateListContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
-            if (ImGui.MenuItem("Duplicate List"))
+            if (ImGui.MenuItem("リストを複製"))
             {
                 var clone = leaf.Value.Clone();
-                clone.Name = $"{leaf.Value.Name} (Copy)";
+                clone.Name = $"{leaf.Value.Name} (コピー)";
                 _plugin.AutoGatherListsManager.AddList(clone, leaf.Parent);
             }
         }
@@ -258,24 +258,24 @@ public partial class Interface
         private void ToggleListContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
             var list = leaf.Value;
-            if (ImGui.MenuItem(list.Enabled ? "Disable" : "Enable"))
+            if (ImGui.MenuItem(list.Enabled ? "無効化" : "有効化"))
                 _plugin.AutoGatherListsManager.ToggleList(list);
         }
 
         private void ExportListContext(FileSystem<AutoGatherList>.Leaf leaf)
         {
-            if (ImGui.MenuItem("Export to Clipboard"))
+            if (ImGui.MenuItem("クリップボードへエクスポート"))
             {
                 try
                 {
                     var config = new AutoGatherList.Config(leaf.Value);
                     var base64 = config.ToBase64();
                     ImGui.SetClipboardText(base64);
-                    Communicator.PrintClipboardMessage("Auto-gather list", leaf.Value.Name);
+                    Communicator.PrintClipboardMessage("自動採集リスト", leaf.Value.Name);
                 }
                 catch (Exception e)
                 {
-                    Communicator.PrintClipboardMessage("Auto-gather list", leaf.Value.Name, e);
+                    Communicator.PrintClipboardMessage("自動採集リスト", leaf.Value.Name, e);
                 }
             }
         }
@@ -287,26 +287,26 @@ public partial class Interface
             var result               = BuildVendorBuyListGenerationResult(leaf.Value, vendorBuyListManager);
             var canOpenMenu          = vendorBuyListManager != null && vendorBuyListWindow != null && result.VendorDataReady && result.AllBaitNames.Count > 0;
 
-            if (!ImGui.BeginMenu("Generate Bait Buy List", canOpenMenu))
+            if (!ImGui.BeginMenu("餌購入リストを生成", canOpenMenu))
             {
                 if (!canOpenMenu && ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled))
                 {
                     var tooltip = vendorBuyListManager == null || vendorBuyListWindow == null
-                        ? "Vendor buy lists are not available."
+                        ? "ショップ購入リストを利用できません。"
                         : result.AllBaitNames.Count == 0
-                            ? "No direct fishing bait was found in this auto-gather list."
+                            ? "この自動採集リストに直接購入できる釣り餌がありません。"
                             : VendorShopResolver.IsInitializing
-                                ? "Vendor data is still loading."
-                                : "Vendor data is not ready yet.";
+                                ? "ショップデータを読み込み中です。"
+                                : "ショップデータの準備ができていません。";
                     ImGui.SetTooltip(tooltip);
                 }
                 return;
             }
 
-            if (ImGui.MenuItem("Create New List", string.Empty, false, result.Targets.Count > 0))
+            if (ImGui.MenuItem("新しいリストを作成", string.Empty, false, result.Targets.Count > 0))
                 OpenCreateVendorBuyListPopup(leaf.Value, result, vendorBuyListWindow!);
 
-            if (ImGui.BeginMenu("Add to Existing List", result.Targets.Count > 0 && vendorBuyListManager!.Lists.Count > 0))
+            if (ImGui.BeginMenu("既存リストに追加", result.Targets.Count > 0 && vendorBuyListManager!.Lists.Count > 0))
             {
                 foreach (var list in vendorBuyListManager.Lists.OrderByDescending(list => list.CreatedAt))
                 {
@@ -320,7 +320,7 @@ public partial class Interface
             if (result.SkippedBaitNames.Count > 0)
             {
                 ImGui.Separator();
-                if (ImGui.MenuItem("Show Non-Vendor Baits"))
+                if (ImGui.MenuItem("店売り以外の餌を表示"))
                     OpenSkippedBaitPopup(leaf.Value, result);
             }
 
@@ -363,8 +363,8 @@ public partial class Interface
             VendorBuyListWindow vendorBuyListWindow)
         {
             var listName = string.IsNullOrWhiteSpace(sourceList.Name)
-                ? "Auto-Gather Baits"
-                : $"{sourceList.Name} Baits";
+                ? "自動採集の餌"
+                : $"{sourceList.Name} の餌";
             GatherBuddy.Log.Debug(
                 $"[AutoGatherListSelector] Creating a new vendor buy list '{listName}' from auto-gather list '{sourceList.Name}' with {result.Targets.Count:N0} bait target(s) and {result.SkippedBaitNames.Count:N0} skipped bait(s).");
             if (!vendorBuyListWindow.OpenCreateListPopup(listName, result.Targets))
@@ -374,7 +374,7 @@ public partial class Interface
                 return;
             }
 
-            OpenSkippedBaitPopup(sourceList, result, $"Created vendor buy list '{listName}'");
+            OpenSkippedBaitPopup(sourceList, result, $"ショップ購入リスト '{listName}' を作成しました");
         }
 
         private void AddTargetsToVendorBuyList(AutoGatherList sourceList, Guid listId, string listName,
@@ -389,7 +389,7 @@ public partial class Interface
                 return;
             }
 
-            OpenSkippedBaitPopup(sourceList, result, $"Updated vendor buy list '{listName}'");
+            OpenSkippedBaitPopup(sourceList, result, $"ショップ購入リスト '{listName}' を更新しました");
         }
 
         private void OpenSkippedBaitPopup(AutoGatherList sourceList, BaitBuyListGenerationResult result, string? actionPrefix = null)
@@ -398,15 +398,15 @@ public partial class Interface
                 return;
 
             var sourceListName = string.IsNullOrWhiteSpace(sourceList.Name)
-                ? "this auto-gather list"
+                ? "この自動採集リスト"
                 : $"'{sourceList.Name}'";
-            var baitLabel = result.SkippedBaitNames.Count == 1 ? "bait was" : "baits were";
+            var baitLabel = result.SkippedBaitNames.Count == 1 ? "餌は" : "餌は";
             var requirementText = result.SkippedBaitNames.Count == 1
-                ? "It needs to be crafted or obtained outside the vendor system."
-                : "They need to be crafted or obtained outside the vendor system.";
+                ? "製作またはショップ以外の方法で入手する必要があります。"
+                : "製作またはショップ以外の方法で入手する必要があります。";
             var summary = actionPrefix == null
-                ? $"The following {baitLabel} not added from {sourceListName}. {requirementText}"
-                : $"{actionPrefix} from {sourceListName}. The following {baitLabel} not added. {requirementText}";
+                ? $"{sourceListName} から以下の{baitLabel}追加されませんでした。{requirementText}"
+                : $"{actionPrefix}。{sourceListName} から以下の{baitLabel}追加されませんでした。{requirementText}";
 
             _baitBuyListResultPopup = new BaitBuyListResultPopupState(summary, result.SkippedBaitNames);
         }
@@ -433,7 +433,7 @@ public partial class Interface
         private void CreateFolderContext(FileSystem<AutoGatherList>.Folder folder)
         {
             const string newFolderName = "newFolderName";
-            if (ImGui.MenuItem("Create Subfolder"))
+            if (ImGui.MenuItem("サブフォルダを作成"))
                 ImGui.OpenPopup(newFolderName);
 
             string name = string.Empty;

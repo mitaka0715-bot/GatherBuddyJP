@@ -198,7 +198,7 @@ public partial class Interface
     private void DrawGatherWindowTab()
     {
         using var id  = ImRaii.PushId("GatherWindow");
-        using var tab = ImRaii.TabItem("Gather Window");
+        using var tab = ImRaii.TabItem("採集ウィンドウ");
 
         ImGuiUtil.HoverTooltip(
             "Config window too big? Why can't you hold all this information?\n"

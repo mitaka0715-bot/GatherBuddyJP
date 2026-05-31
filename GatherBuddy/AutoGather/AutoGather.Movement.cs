@@ -133,14 +133,14 @@ namespace GatherBuddy.AutoGather
                         } 
                         else
                         {
-                            Navigate(gameObject.Position, false, nodeId: gameObject.BaseId);
+                            Navigate(gameObject.Position, false);
                         }
                     }
                 }
             }
             else
             {
-                Navigate(gameObject.Position, ShouldFly(gameObject.Position), nodeId: gameObject.BaseId);
+                Navigate(gameObject.Position, ShouldFly(gameObject.Position));
             }
         }
 
@@ -180,16 +180,16 @@ namespace GatherBuddy.AutoGather
 
                 if (!Dalamud.Conditions[ConditionFlag.Diving])
                 {
-                    TaskManager.Enqueue(() => { if (!Dalamud.Conditions[ConditionFlag.Gathering]) Navigate(gameObject.Position, false, nodeId: gameObject.BaseId); });
+                    TaskManager.Enqueue(() => { if (!Dalamud.Conditions[ConditionFlag.Gathering]) Navigate(gameObject.Position, false); });
                 }
             }
             else if (hSeparation < Math.Max(GatherBuddy.Config.AutoGatherConfig.MountUpDistance, 5))
             {
-                Navigate(gameObject.Position, false, nodeId: gameObject.BaseId);
+                Navigate(gameObject.Position, false);
             }
             else
             {
-                Navigate(gameObject.Position, ShouldFly(gameObject.Position), nodeId: gameObject.BaseId);
+                Navigate(gameObject.Position, ShouldFly(gameObject.Position));
             }
         }
 
@@ -243,6 +243,7 @@ namespace GatherBuddy.AutoGather
             {
                 _navState.lastTry = Environment.TickCount64;
                 _navState.cts = new CancellationTokenSource();
+                _navState.taskStarted = Environment.TickCount64;
                 _navState.task = FindCombinedPath(Player.Position, destination, landingDistance, Dalamud.Conditions[ConditionFlag.InFlight], _navState.cts.Token);
                 GatherBuddy.Log.Debug($"Retrying combined pathfinding to {destination}.");
                 return;
@@ -264,6 +265,7 @@ namespace GatherBuddy.AutoGather
             _navState.direct = direct || !shouldFly || landingDistance == 0 || destination != offsettedDestination || Dalamud.Conditions[ConditionFlag.Diving];
             _navState.offset = destination != offsettedDestination;
             _navState.cts = new CancellationTokenSource();
+            _navState.taskStarted = Environment.TickCount64;
 
             if (_navState.direct)
             {
@@ -317,8 +319,30 @@ namespace GatherBuddy.AutoGather
                 return;
             }
 
-            if (_navState.task == null || _navState.cts == null || !_navState.task.IsCompleted)
+            if (_navState.task == null || _navState.cts == null)
                 return;
+
+            if (!_navState.task.IsCompleted)
+            {
+                if (Environment.TickCount64 - _navState.taskStarted <= 8000)
+                    return;
+
+                GatherBuddy.Log.Warning($"Path generation timed out at stage {_navState.stage}, direct: {_navState.direct}. Retrying with a simpler path.");
+                StopPathfinding();
+
+                if (_navState.direct || _navState.stage == PathfindingStage.FallbackDirectPathfinding)
+                {
+                    StopNavigation();
+                    _advancedUnstuck.Force();
+                    return;
+                }
+
+                _navState.stage = PathfindingStage.FallbackDirectPathfinding;
+                _navState.cts = new CancellationTokenSource();
+                _navState.taskStarted = Environment.TickCount64;
+                _navState.task = VNavmesh.Nav.PathfindCancelable(player, _navState.destination, _navState.flying, _navState.cts.Token);
+                return;
+            }
 
             try
             {
@@ -346,6 +370,7 @@ namespace GatherBuddy.AutoGather
                     GatherBuddy.Log.Debug($"VNavmesh failed to find a combined path, falling back to direct path.");
                     _navState.stage++;
                     _navState.cts = new CancellationTokenSource();
+                    _navState.taskStarted = Environment.TickCount64;
                     _navState.task = VNavmesh.Nav.PathfindCancelable(player, _navState.destination, _navState.flying, _navState.cts.Token);
                 }
                 else if (_navState.stage != PathfindingStage.RetryCombinedPathfinding)
@@ -479,7 +504,7 @@ namespace GatherBuddy.AutoGather
                 && nodeId.HasValue 
                 && AutoOffsets.TryGetRandomOffset(nodeId.Value, destination, player, out var offset))
             {
-                GatherBuddy.Log.Debug($"Using auto-offset for node {nodeId.Value}: {offset}. Distance to node: {Vector2.Distance(offset.ToVector2(), destination.ToVector2()):F2}y, angle: {Math.Acos(Vector2.Dot(Vector2.Normalize((player - destination).ToVector2()), Vector2.Normalize((offset - destination).ToVector2()))) * 180.0 / Math.PI:F1}°");
+                GatherBuddy.Log.Debug($"Using auto-offset for node {nodeId.Value}: {offset}. Distance to node: {Vector2.Distance(offset.ToVector2(), destination.ToVector2()):F2}y, angle: {Math.Acos(Vector2.Dot(Vector2.Normalize((player - destination).ToVector2()), Vector2.Normalize((offset - destination).ToVector2()))) * 180.0 / Math.PI:F1}ï½°");
                 return offset;
             }
 

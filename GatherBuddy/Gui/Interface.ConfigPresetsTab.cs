@@ -214,7 +214,7 @@ namespace GatherBuddy.Gui
 
         public void DrawConfigPresetsTab()
         {
-            using var tab = ImRaii.TabItem("Config Presets");
+            using var tab = ImRaii.TabItem("設定プリセット");
 
             ImGuiUtil.HoverTooltip("Configure what actions to use with Auto-Gather.");
 

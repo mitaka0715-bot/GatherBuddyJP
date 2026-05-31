@@ -44,16 +44,16 @@ public partial class Interface
             _typeColumnWidth      = Enum.GetValues<GatheringType>().Max(t => TextWidth(t.ToString())) / ImGuiHelpers.GlobalScale;
         }
 
-        private static readonly NameColumn      _nameColumn      = new() { Label = "Name" };
-        private static readonly TypeColumn      _typeColumn      = new() { Label = "Type" };
-        private static readonly TerritoryColumn _territoryColumn = new() { Label = "Territory" };
-        private static readonly LevelColumn     _levelColumn     = new() { Label = "Level" };
-        private static readonly AetheryteColumn _aetheryteColumn = new() { Label = "Aetheryte" };
-        private static readonly XCoordColumn    _xCoordColumn    = new() { Label = "X-Coord" };
-        private static readonly YCoordColumn    _yCoordColumn    = new() { Label = "Y-Coord" };
-        private static readonly RadiusColumn    _radiusColumn    = new() { Label = "Radius" };
-        private static readonly MarkerColumn    _markerColumn    = new() { Label = "Markers" };
-        private static readonly ItemColumn      _itemColumn      = new() { Label = "Items" };
+        private static readonly NameColumn      _nameColumn      = new() { Label = "名前" };
+        private static readonly TypeColumn      _typeColumn      = new() { Label = "種類" };
+        private static readonly TerritoryColumn _territoryColumn = new() { Label = "エリア" };
+        private static readonly LevelColumn     _levelColumn     = new() { Label = "Lv" };
+        private static readonly AetheryteColumn _aetheryteColumn = new() { Label = "エーテライト" };
+        private static readonly XCoordColumn    _xCoordColumn    = new() { Label = "X座標" };
+        private static readonly YCoordColumn    _yCoordColumn    = new() { Label = "Y座標" };
+        private static readonly RadiusColumn    _radiusColumn    = new() { Label = "半径" };
+        private static readonly MarkerColumn    _markerColumn    = new() { Label = "マーカー" };
+        private static readonly ItemColumn      _itemColumn      = new() { Label = "アイテム" };
 
         private sealed class NameColumn : ColumnString<ILocation>
         {
@@ -380,9 +380,9 @@ public partial class Interface
     private void DrawLocationsTab()
     {
         using var id  = ImRaii.PushId("Locations");
-        using var tab = ImRaii.TabItem("Locations");
-        ImGuiUtil.HoverTooltip("Default locations getting you down?\n"
-          + "Set up custom aetherytes or map marker locations for specific nodes.");
+        using var tab = ImRaii.TabItem("場所");
+        ImGuiUtil.HoverTooltip("採集場所の座標や最寄りエーテライトを調整できます。\n"
+          + "変更内容は個人設定に保存されます。");
 
         if (!tab)
             return;

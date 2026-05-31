@@ -75,20 +75,20 @@ public partial class Interface
             GatherBuddy.FishLog.Change             += OnLogChange;
         }
 
-        private static readonly NameColumn        _nameColumn        = new() { Label = "Item Name..." };
-        private static readonly CaughtColumn      _caughtColumn      = new() { Label = "Log" };
-        private static readonly NextUptimeColumn  _nextUptimeColumn  = new() { Label = "Next Uptime" };
-        private static readonly UptimesColumn     _uptimeColumn      = new() { Label = "Up%" };
-        private static readonly BaitColumn        _baitColumn        = new() { Label = "Bait..." };
-        private static readonly AetheryteColumn   _aetheryteColumn   = new() { Label = "Aetheryte..." };
-        private static readonly TypeColumn        _typeColumn        = new() { Label = "Fish Type" };
-        private static readonly CollectibleColumn _collectibleColumn = new() { Label = "Coll." };
-        private static readonly PatchColumn       _patchColumn       = new() { Label = "Patch" };
-        private static readonly FolkloreColumn    _folkloreColumn    = new() { Label = "Folklore..." };
-        private static readonly BestSpotColumn    _bestSpotColumn    = new() { Label = "Best Spot..." };
-        private static readonly BestZoneColumn    _bestZoneColumn    = new() { Label = "Best Zone..." };
-        private static readonly ItemIdColumn      _itemIdColumn      = new() { Label = "Item Id" };
-        private static readonly FishIdColumn      _fishIdColumn      = new() { Label = "G. Id" };
+        private static readonly NameColumn        _nameColumn        = new() { Label = "魚名..." };
+        private static readonly CaughtColumn      _caughtColumn      = new() { Label = "釣果手帳" };
+        private static readonly NextUptimeColumn  _nextUptimeColumn  = new() { Label = "次の出現" };
+        private static readonly UptimesColumn     _uptimeColumn      = new() { Label = "出現率" };
+        private static readonly BaitColumn        _baitColumn        = new() { Label = "餌..." };
+        private static readonly AetheryteColumn   _aetheryteColumn   = new() { Label = "エーテライト..." };
+        private static readonly TypeColumn        _typeColumn        = new() { Label = "魚種" };
+        private static readonly CollectibleColumn _collectibleColumn = new() { Label = "収集品" };
+        private static readonly PatchColumn       _patchColumn       = new() { Label = "パッチ" };
+        private static readonly FolkloreColumn    _folkloreColumn    = new() { Label = "伝承録..." };
+        private static readonly BestSpotColumn    _bestSpotColumn    = new() { Label = "最適釣り場..." };
+        private static readonly BestZoneColumn    _bestZoneColumn    = new() { Label = "最適エリア..." };
+        private static readonly ItemIdColumn      _itemIdColumn      = new() { Label = "アイテムID" };
+        private static readonly FishIdColumn      _fishIdColumn      = new() { Label = "魚ID" };
 
         private class FishFilterColumn : ColumnFlags<FishFilter, ExtendedFish>
         {
@@ -600,18 +600,17 @@ public partial class Interface
     private void DrawFishTab()
     {
         using var id  = ImRaii.PushId("Fish");
-        using var tab = ImRaii.TabItem("Fish");
-        ImGuiUtil.HoverTooltip("There are plenty of fish in the sea. And the air. And the sand. And the lava. And space, for some reason.\n"
-          + " Gotta catch'em all!\n"
-          + "Enough information about fish to get you started, and for everything else there's TeamCraft!");
+        using var tab = ImRaii.TabItem("魚");
+        ImGuiUtil.HoverTooltip("釣れる魚の一覧です。\n"
+          + "餌、釣り場、天候、時間条件を確認できます。");
         if (!tab)
             return;
 
         _fishTable.ExtraHeight = (GatherBuddy.Config.ShowStatusLine ? ImGui.GetTextLineHeight() : 0)
           + ImGui.GetFrameHeightWithSpacing();
         _fishTable.Draw(ImGui.GetTextLineHeightWithSpacing());
-        DrawAddAllFilteredToAutoGather(_fishTable, f => f.Data, "Fish");
-        DrawStatusLine(_fishTable, "Fish");
+        DrawAddAllFilteredToAutoGather(_fishTable, f => f.Data, "魚");
+        DrawStatusLine(_fishTable, "魚");
         DrawClippy();
     }
 }

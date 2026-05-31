@@ -214,16 +214,41 @@ public partial class Interface
 
     private const string PresetName = "From Gatherables List";
 
+    private static AutoGatherList AddToCurrentOrNewAutoGatherList(IGatherable item)
+    {
+        var current = _plugin.Interface.CurrentAutoGatherList;
+
+        if (current == null)
+            return CreateAndAddPreset(item);
+
+        var wasEnabled = current.Enabled;
+        _plugin.AutoGatherListsManager.AddItem(current, item);
+
+        if (!wasEnabled)
+            _plugin.AutoGatherListsManager.ToggleList(current);
+        else
+            _plugin.AutoGatherListsManager.SetActiveItems();
+
+        return current;
+    }
+
+    private static void StartAutoGatherForItem(IGatherable item)
+    {
+        var list = AddToCurrentOrNewAutoGatherList(item);
+        if (!list.Enabled)
+            return;
+
+        GatherBuddy.AutoGather.Enabled = true;
+        Communicator.Print($"[GatherBuddy JP] {item.Name[GatherBuddy.Language]} を自動採集リストに追加して開始しました。");
+    }
+
     private void DrawAddToAutoGather(IGatherable item)
     {
         var current = _autoGatherListsCache.Selector.Selected;
 
         if (ImGui.Selectable("Add to Auto-Gather List"))
         {
-            if (current == null)
-                CreateAndAddPreset(item);
-            else
-                _plugin.AutoGatherListsManager.AddItem(current, item);
+            AddToCurrentOrNewAutoGatherList(item);
         }
 
         if (ImGui.IsItemHovered())

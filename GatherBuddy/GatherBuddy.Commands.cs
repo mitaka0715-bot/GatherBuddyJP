@@ -22,73 +22,74 @@ public partial class GatherBuddy
     public const string AutoCommand           = "auto";
     public const string AutoOnCommand         = "auto on";
     public const string AutoOffCommand        = "auto off";
-    public const string FullIdentify          = $"/gatherbuddy {IdentifyCommand}";
-    public const string FullGearChange        = $"/gatherbuddy {GearChangeCommand}";
-    public const string FullTeleport          = $"/gatherbuddy {TeleportCommand}";
-    public const string FullMapMarker         = $"/gatherbuddy {MapMarkerCommand}";
-    public const string FullAdditionalInfo    = $"/gatherbuddy {AdditionalInfoCommand}";
-    public const string FullSetWaymarks       = $"/gatherbuddy {SetWaymarksCommand}";
-    public const string FullAuto              = $"/gatherbuddy {AutoCommand}";
-    public const string FullAutoOn            = $"/gatherbuddy {AutoOnCommand}";
-    public const string FullAutoOff           = $"/gatherbuddy {AutoOffCommand}";
+    public const string MainCommand           = "/gbjp";
+    public const string FullIdentify          = $"{MainCommand} {IdentifyCommand}";
+    public const string FullGearChange        = $"{MainCommand} {GearChangeCommand}";
+    public const string FullTeleport          = $"{MainCommand} {TeleportCommand}";
+    public const string FullMapMarker         = $"{MainCommand} {MapMarkerCommand}";
+    public const string FullAdditionalInfo    = $"{MainCommand} {AdditionalInfoCommand}";
+    public const string FullSetWaymarks       = $"{MainCommand} {SetWaymarksCommand}";
+    public const string FullAuto              = $"{MainCommand} {AutoCommand}";
+    public const string FullAutoOn            = $"{MainCommand} {AutoOnCommand}";
+    public const string FullAutoOff           = $"{MainCommand} {AutoOffCommand}";
 
     private readonly Dictionary<string, CommandInfo> _commands = new();
 
     private void InitializeCommands()
     {
-        _commands["/gatherbuddy"] = new CommandInfo(OnGatherBuddy)
+        _commands["/gatherbuddyjp"] = new CommandInfo(OnGatherBuddy)
         {
-            HelpMessage = "Use to open the GatherBuddy interface.",
+            HelpMessage = "GatherBuddy JP の画面を開きます。",
             ShowInHelp  = false,
         };
 
-        _commands["/gbr"] = new CommandInfo(OnGatherBuddy)
+        _commands[MainCommand] = new CommandInfo(OnGatherBuddy)
         {
-            HelpMessage = "Use to open the GatherBuddy interface.",
+            HelpMessage = "GatherBuddy JP の画面を開きます。",
             ShowInHelp  = true,
         };
 
-        _commands["/gather"] = new CommandInfo(OnGather)
+        _commands["/gbjpgather"] = new CommandInfo(OnGather)
         {
-            HelpMessage = "Mark the nearest node containing the item supplied, teleport to the nearest aetheryte, equip appropriate gear.\n"
-              + "You can use 'alarm' to gather the last triggered alarm or 'next' to gather the same item as before, but in the next-best location.",
+            HelpMessage = "指定アイテムを含む最寄り採集場所を探し、最寄りエーテライトへテレポし、適切な装備に変更します。\n"
+              + "'alarm' で最後に通知されたアラーム対象、'next' で前回と同じアイテムの次候補を指定できます。",
             ShowInHelp = true,
         };
 
-        _commands["/gatherbtn"] = new CommandInfo(OnGatherBtn)
+        _commands["/gbjpbtn"] = new CommandInfo(OnGatherBtn)
         {
             HelpMessage =
-                "Mark the nearest botanist node containing the item supplied, teleport to the nearest aetheryte, equip appropriate gear.",
+                "指定アイテムを含む最寄り園芸採集場所を探し、最寄りエーテライトへテレポし、適切な装備に変更します。",
             ShowInHelp = true,
         };
 
-        _commands["/gathermin"] = new CommandInfo(OnGatherMin)
+        _commands["/gbjpmin"] = new CommandInfo(OnGatherMin)
         {
             HelpMessage =
-                "Mark the nearest miner node containing the item supplied, teleport to the nearest aetheryte, equip appropriate gear.",
+                "指定アイテムを含む最寄り採掘場所を探し、最寄りエーテライトへテレポし、適切な装備に変更します。",
             ShowInHelp = true,
         };
 
-        _commands["/gatherfish"] = new CommandInfo(OnGatherFish)
+        _commands["/gbjpfish"] = new CommandInfo(OnGatherFish)
         {
             HelpMessage =
-                "Mark the nearest fishing spot containing the fish supplied, teleport to the nearest aetheryte and equip fishing gear.",
+                "指定魚の釣り場を探し、最寄りエーテライトへテレポし、釣り装備に変更します。",
             ShowInHelp = true,
         };
 
-        _commands["/gathergroup"] = new CommandInfo(OnGatherGroup)
+        _commands["/gbjpgroup"] = new CommandInfo(OnGatherGroup)
         {
-            HelpMessage = "Teleport to the node of a group corresponding to current time. Use /gathergroup for more details.",
+            HelpMessage = "現在時刻に対応するグループ内の採集場所へテレポします。詳細は /gbjpgroup を実行してください。",
             ShowInHelp  = true,
         };
 
-        _commands["/gbc"] = new CommandInfo(OnGatherBuddyShort)
+        _commands["/gbjpc"] = new CommandInfo(OnGatherBuddyShort)
         {
-            HelpMessage = "Some quick toggles for config options. Use without argument for help.",
+            HelpMessage = "設定項目を素早く切り替えます。引数なしでヘルプを表示します。",
             ShowInHelp  = true,
         };
 
-        _commands["/gatherdebug"] = new CommandInfo(OnGatherDebug)
+        _commands["/gbjpdebug"] = new CommandInfo(OnGatherDebug)
         {
             ShowInHelp = false,
         };

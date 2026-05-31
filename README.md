@@ -1,42 +1,44 @@
-# [![](https://raw.githubusercontent.com/FFXIV-CombatReborn/RebornAssets/main/IconAssets/GBR_Icon.png)](https://github.com/FFXIV-CombatReborn/GatherBuddyReborn)
+# GatherBuddy JP
 
-**GatherBuddyReborn**
+GatherBuddy JP は、GatherBuddy Reborn JP fork を元にした採掘・園芸向けの Dalamud プラグインです。
 
-![Github Latest Releases](https://img.shields.io/github/downloads/FFXIV-CombatReborn/GatherBuddyReborn/latest/total.svg?style=for-the-badge)
-![Github All Releases](https://img.shields.io/github/downloads/FFXIV-CombatReborn/GatherBuddyReborn/total.svg?style=for-the-badge)
-![Github License](https://img.shields.io/github/license/FFXIV-CombatReborn/GatherBuddyReborn.svg?label=License&style=for-the-badge)
-[![](https://dcbadge.limes.pink/api/server/p54TZMPnC9)](https://discord.gg/p54TZMPnC9)
+## 概要
 
-GatherBuddyReborn is a community-made fork of the original GatherBuddy plugin for Final Fantasy XIV. This tool is designed to enhance your gameplay experience by assisting with all things gathering, now with automated routes via vnavmesh.
+- 採掘師 / 園芸師向けの採集アイテム検索
+- 自動採集リスト
+- vnavmesh を使ったテレポ後の移動
+- 採集ウィンドウの操作支援
+- 天候、アラーム、採集グループ、採集ウィンドウ機能
 
-## Features
+この版では、漁師向けの画面やウィンドウを通常UIから外しています。
 
-- **AutoGather**: Automated pathing for gathering up to 10 full stacks (999 each) of a resource.
-- **Resource Queueing**: Create a list of resources you want and GBR will gather up to 10 stacks of each!
-- **Full BTN/MIN Automation**: GBR can find any BTN/MIN item in the world and gather it for you fully automatically, no user input required beyond initial setup
+## 必須プラグイン
 
-**NOTE**: vnavmesh plugin is *required* for full automation. Please see the links section of this README for more information on vnavmesh.
-  
-## Installing
-- Enter `/xlsettings` in the chat window and go to the Experimental tab in the opening window.
-- **Skip below the DevPlugins section to the Custom Plugin Repositories section.**
-- Copy and paste the repo.json link into the first free text input field.
+- vnavmesh
+
+自動移動を使う場合は vnavmesh が必要です。
+
+## Dalamud への追加方法
+
+Dalamud の設定画面を開きます。
+
+1. `/xlsettings`
+2. `Experimental`
+3. `Custom Plugin Repositories`
+4. 下のURLを追加
+
+```text
+https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/repo.json
 ```
-https://raw.githubusercontent.com/FFXIV-CombatReborn/CombatRebornRepo/main/pluginmaster.json
-```
-- Click on the + button and make sure the checkmark beside the new field is set afterwards.
-- **Click on the Save-icon in the bottom right.**
 
-Following these steps, you should be able to see all contained plugins in the Available Plugins tab in the Dalamud Plugin Installer.
-No Plugins will be installed, you have just made them available. You can now select which of these plugins you actually want to install.
+追加後、Plugin Installer の一覧から `GatherBuddy JP` をインストールできます。
 
-## Want to contribute?
+## 配布ファイル
 
-- Create a fork
-- Make your changes
-- Test the changes
-- Create a PR and point it to main
+- `repo.json`: Dalamud カスタムリポジトリ用JSON
+- `latest.zip`: Dalamud がインストール時に取得するプラグインZIP
+- `GatherBuddyJP.json`: プラグインmanifest
 
-## Links
+## Author
 
-[vnavmesh](https://github.com/awgil/ffxiv_navmesh) Required for automated navigation
+General Headquarters

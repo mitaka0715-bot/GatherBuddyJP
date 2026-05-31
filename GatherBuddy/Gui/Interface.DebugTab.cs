@@ -754,7 +754,7 @@ public partial class Interface
     private void DrawDebugTab()
     {
         using var id = ImRaii.PushId("Debug");
-        using var tab = ImRaii.TabItem("Debug");
+        using var tab = ImRaii.TabItem("デバッグ");
         ImGuiUtil.HoverTooltip("I really hope there is a good reason for you seeing this.");
 
         if (!tab)

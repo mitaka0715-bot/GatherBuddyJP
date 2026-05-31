@@ -167,7 +167,7 @@ public partial class Interface
     private void DrawWeatherTab()
     {
         using var id  = ImRaii.PushId("Weather");
-        using var tab = ImRaii.TabItem("Weather");
+        using var tab = ImRaii.TabItem("天候");
         ImGuiUtil.HoverTooltip("Yes, 'Gloom' is weather.\n"
           + "See the weather forecast in all zones for the following days, as well as the last one.");
 

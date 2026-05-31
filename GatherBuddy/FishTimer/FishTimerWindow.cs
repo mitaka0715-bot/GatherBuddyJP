@@ -90,7 +90,7 @@ public partial class FishTimerWindow : Window, IDisposable
         ImGui.SetCursorPosY((_windowSize.Y - 4 * ImGui.GetTextLineHeightWithSpacing()) / 2);
         DrawCenteredText(_windowSize.X, "TIMER");
         DrawCenteredText(_windowSize.X, "\nDisable \"Edit Fish Timer\"");
-        DrawCenteredText(_windowSize.X, "in /gatherbuddy -> Config");
+        DrawCenteredText(_windowSize.X, "/gbjp -> Config");
         DrawCenteredText(_windowSize.X, "-> Interface -> Fish Timer Window");
         DrawCenteredText(_windowSize.X, "to enable actual functionality");
         DrawCenteredText(_windowSize.X, "and hide this when not fishing.");

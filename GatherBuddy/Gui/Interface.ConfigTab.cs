@@ -1460,58 +1460,58 @@ public partial class Interface
 
     private static ConfigPage[] BuildConfigPages() =>
     [
-        new("Auto-Gather", "General",
+        new("自動採集", "基本",
         [
-            new("Select Mount",                                   AutoGatherUI.DrawMountSelector),
-            new("Mount Up Distance",                              ConfigFunctions.DrawMountUpDistance),
-            new("Landing Distance",                               ConfigFunctions.DrawLandingDistance),
-            new("Move while mounting up",                         ConfigFunctions.DrawMoveWhileMounting),
-            new("Play a sound when done gathering Playback Volume",
+            new("マウント選択",                                   AutoGatherUI.DrawMountSelector),
+            new("マウント開始距離",                              ConfigFunctions.DrawMountUpDistance),
+            new("着地距離",                                      ConfigFunctions.DrawLandingDistance),
+            new("マウント中も移動",                              ConfigFunctions.DrawMoveWhileMounting),
+            new("採集完了時の効果音と音量",
                 layout =>
                 {
                     ConfigFunctions.DrawHonkModeBox();
                     if (GatherBuddy.Config.AutoGatherConfig.HonkMode)
                         layout.Child.Draw(ConfigFunctions.DrawHonkVolumeSlider);
                 }),
-            new("Check Retainer Inventories",                     ConfigFunctions.DrawCheckRetainersBox),
-            new("Teleport to next timed item",                    ConfigFunctions.DrawTeleportToNextNodeBox),
-            new("Go home when done Go home when idle",            ConfigFunctions.DrawGoHomeBox),
-            new("Gather any crystals when The Giving Land is off cooldown", ConfigFunctions.DrawUseGivingLandOnCooldown),
-            new("Use skills for fallback items",                  ConfigFunctions.DrawUseSkillsForFallabckBox),
-            new("Abandon nodes without needed items",             ConfigFunctions.DrawAbandonNodesBox),
-            new("Always gather maps when available",              ConfigFunctions.DrawAlwaysMapsBox),
+            new("リテイナー所持品を確認",                         ConfigFunctions.DrawCheckRetainersBox),
+            new("次の時間限定アイテムへテレポ",                   ConfigFunctions.DrawTeleportToNextNodeBox),
+            new("完了時・待機時に帰宅",                           ConfigFunctions.DrawGoHomeBox),
+            new("大地の恵みのリキャスト中にクリスタルを採集",     ConfigFunctions.DrawUseGivingLandOnCooldown),
+            new("予備アイテムにもスキルを使用",                   ConfigFunctions.DrawUseSkillsForFallabckBox),
+            new("必要アイテムが無い採集場を放棄",                 ConfigFunctions.DrawAbandonNodesBox),
+            new("地図がある場合は常に採集",                       ConfigFunctions.DrawAlwaysMapsBox),
         ]),
-        new("Auto-Gather", "Fishing",
+        new("自動採集", "釣り",
         [
-            new("Use AutoHook Global Preset",                    ConfigFunctions.DrawUseAutoHookGlobalPresetBox),
-            new("Use existing AutoHook presets",                  ConfigFunctions.DrawUseExistingAutoHookPresetsBox),
-            new("Max Fishing Spot Minutes",                       ConfigFunctions.DrawFishingSpotMinutes),
-            new("Opt-in to fishing data collection",              ConfigFunctions.DrawFishCollectionBox),
-            new("Auto Collectables",                              ConfigFunctions.DrawAutoCollectablesFishingBox),
-            new("Defer repairs during fishing buffs",             ConfigFunctions.DrawDeferRepairDuringFishingBuffsBox),
-            new("Defer aetherial reduction during fishing buffs", ConfigFunctions.DrawDeferReductionDuringFishingBuffsBox),
-            new("Defer materia extraction during fishing buffs",  ConfigFunctions.DrawDeferMateriaExtractionDuringFishingBuffsBox),
-            new("Use Hook Timers in AutoHook Presets",            ConfigFunctions.DrawUseHookTimersBox),
-            new("Manual Preset Generator",                        ConfigFunctions.DrawManualPresetGenerator),
+            new("AutoHookグローバルプリセットを使用",             ConfigFunctions.DrawUseAutoHookGlobalPresetBox),
+            new("既存AutoHookプリセットを使用",                   ConfigFunctions.DrawUseExistingAutoHookPresetsBox),
+            new("釣り場の最大滞在時間",                           ConfigFunctions.DrawFishingSpotMinutes),
+            new("釣りデータ収集に参加",                           ConfigFunctions.DrawFishCollectionBox),
+            new("収集品を自動処理",                               ConfigFunctions.DrawAutoCollectablesFishingBox),
+            new("釣りバフ中は修理を延期",                         ConfigFunctions.DrawDeferRepairDuringFishingBuffsBox),
+            new("釣りバフ中は精選を延期",                         ConfigFunctions.DrawDeferReductionDuringFishingBuffsBox),
+            new("釣りバフ中はマテリア精製を延期",                 ConfigFunctions.DrawDeferMateriaExtractionDuringFishingBuffsBox),
+            new("AutoHookプリセットでフッキング秒数を使用",       ConfigFunctions.DrawUseHookTimersBox),
+            new("手動プリセット生成",                             ConfigFunctions.DrawManualPresetGenerator),
         ]),
-        new("Auto-Gather", "Advanced",
+        new("自動採集", "詳細",
         [
-            new("Repair gear when needed Repair Threshold",
+            new("必要時に装備修理・修理しきい値",
                 layout =>
                 {
                     ConfigFunctions.DrawRepairBox();
                     if (GatherBuddy.Config.AutoGatherConfig.DoRepair)
                         layout.Child.Draw(ConfigFunctions.DrawRepairThreshold);
                 }),
-            new("Enable materia extraction",                      ConfigFunctions.DrawMaterialExtraction),
-            new("Enable Aetherial Reduction Always Reduce All Items",
+            new("マテリア精製を有効化",                           ConfigFunctions.DrawMaterialExtraction),
+            new("精選を有効化・全アイテムを常に精選",
                 layout =>
                 {
                     ConfigFunctions.DrawAetherialReduction();
                     if (GatherBuddy.Config.AutoGatherConfig.DoReduce)
                         layout.Child.Draw(ConfigFunctions.DrawAlwaysReduceAllItemsBox);
                 }),
-            new("Wait for AutoRetainer Multi-mode AutoRetainer Threshold Delay AutoRetainer for timed nodes",
+            new("AutoRetainerマルチモード待機・しきい値・時間限定採集場での遅延",
                 layout =>
                 {
                     ConfigFunctions.DrawAutoretainerBox();
@@ -1521,122 +1521,122 @@ public partial class Interface
                         layout.Child.Draw(ConfigFunctions.DrawAutoretainerTimedNodeDelayBox);
                     }
                 }),
-            new("Diadem Auto-Aethercannon",                       ConfigFunctions.DrawDiademAutoAetherCannonBox),
-            new("Diadem Windmire Jumps",                          ConfigFunctions.DrawDiademWindmireJumps),
-            new("Re-enter The Diadem to Reset Clouded Nodes",     ConfigFunctions.DrawDiademFarmCloudedNodes),
-            new("Item Sorting Method",                            ConfigFunctions.DrawSortingMethodCombo),
-            new("Lifestream Command",                             ConfigFunctions.DrawLifestreamCommandTextInput),
-            new("Anti-Stuck Cooldown",                            ConfigFunctions.DrawAntiStuckCooldown),
-            new("Stuck Threshold",                                ConfigFunctions.DrawStuckThreshold),
-            new("Timed Node Precognition",                        ConfigFunctions.DrawTimedNodePrecog),
-            new("Execution delay Milliseconds",                   ConfigFunctions.DrawExecutionDelay),
-            new("Enable Gathering Window Interaction",            ConfigFunctions.DrawAutoGatherBox),
-            new("Disable map marker navigation",                  ConfigFunctions.DrawUseFlagBox),
-            new("Use vnavmesh Navigation",                        ConfigFunctions.DrawUseNavigationBox),
-            new("Force Walking",                                  ConfigFunctions.DrawForceWalkingBox),
-            new("Disable Random Landing Positions",               ConfigFunctions.DrawDisableRandomLandingPositionsBox),
+            new("ディアデム自動エーテルカノン",                   ConfigFunctions.DrawDiademAutoAetherCannonBox),
+            new("ディアデム風脈ジャンプ",                         ConfigFunctions.DrawDiademWindmireJumps),
+            new("雲海採集場リセットのためディアデム再突入",       ConfigFunctions.DrawDiademFarmCloudedNodes),
+            new("アイテム並び替え方法",                           ConfigFunctions.DrawSortingMethodCombo),
+            new("Lifestreamコマンド",                             ConfigFunctions.DrawLifestreamCommandTextInput),
+            new("スタック対策クールダウン",                       ConfigFunctions.DrawAntiStuckCooldown),
+            new("スタック判定しきい値",                           ConfigFunctions.DrawStuckThreshold),
+            new("時間限定採集場の先読み",                         ConfigFunctions.DrawTimedNodePrecog),
+            new("実行遅延ミリ秒",                                 ConfigFunctions.DrawExecutionDelay),
+            new("採集ウィンドウ操作を有効化",                     ConfigFunctions.DrawAutoGatherBox),
+            new("マップマーカー移動を無効化",                     ConfigFunctions.DrawUseFlagBox),
+            new("vnavmesh移動を使用",                             ConfigFunctions.DrawUseNavigationBox),
+            new("歩き移動を強制",                                 ConfigFunctions.DrawForceWalkingBox),
+            new("ランダム着地点を無効化",                         ConfigFunctions.DrawDisableRandomLandingPositionsBox),
         ]),
-        new("General", "Gather Command",
+        new("一般", "採集コマンド",
         [
-            new("Preferred Job No Preference Miner Botanist",     ConfigFunctions.DrawPreferredJobSelect),
-            new("Enable Gear Change",                             ConfigFunctions.DrawGearChangeBox),
-            new("Enable Teleport",                                ConfigFunctions.DrawTeleportBox),
-            new("Open Map With Location",                         ConfigFunctions.DrawMapOpenBox),
-            new("Place Flag Marker on Map",                       ConfigFunctions.DrawPlaceMarkerBox),
-            new("Place Custom Waymarks",                          ConfigFunctions.DrawPlaceWaymarkBox),
-            new("Prefer Cheaper Aetherytes Prefer Less Travel Time", ConfigFunctions.DrawAetherytePreference),
-            new("Skip Nearby Teleports",                          ConfigFunctions.DrawSkipTeleportBox),
-            new("Add In-Game Context Menus",                      ConfigFunctions.DrawContextMenuBox),
+            new("優先ジョブ・指定なし・採掘師・園芸師",           ConfigFunctions.DrawPreferredJobSelect),
+            new("ギアセット変更を有効化",                         ConfigFunctions.DrawGearChangeBox),
+            new("テレポを有効化",                                 ConfigFunctions.DrawTeleportBox),
+            new("場所をマップで開く",                             ConfigFunctions.DrawMapOpenBox),
+            new("マップにフラッグを立てる",                       ConfigFunctions.DrawPlaceMarkerBox),
+            new("カスタムウェイマークを置く",                     ConfigFunctions.DrawPlaceWaymarkBox),
+            new("安いエーテライト優先・移動時間優先",             ConfigFunctions.DrawAetherytePreference),
+            new("近距離テレポをスキップ",                         ConfigFunctions.DrawSkipTeleportBox),
+            new("ゲーム内コンテキストメニューを追加",             ConfigFunctions.DrawContextMenuBox),
         ]),
-        new("General", "Set Names",
+        new("一般", "ギアセット名",
         [
-            new("Miner Set",    () => ConfigFunctions.DrawSetInput("Miner",    GatherBuddy.Config.MinerSetName,    s => GatherBuddy.Config.MinerSetName    = s)),
-            new("Botanist Set", () => ConfigFunctions.DrawSetInput("Botanist", GatherBuddy.Config.BotanistSetName, s => GatherBuddy.Config.BotanistSetName = s)),
-            new("Fisher Set",   () => ConfigFunctions.DrawSetInput("Fisher",   GatherBuddy.Config.FisherSetName,   s => GatherBuddy.Config.FisherSetName   = s)),
+            new("採掘師セット", () => ConfigFunctions.DrawSetInput("Miner",    GatherBuddy.Config.MinerSetName,    s => GatherBuddy.Config.MinerSetName    = s)),
+            new("園芸師セット", () => ConfigFunctions.DrawSetInput("Botanist", GatherBuddy.Config.BotanistSetName, s => GatherBuddy.Config.BotanistSetName = s)),
+            new("漁師セット",   () => ConfigFunctions.DrawSetInput("Fisher",   GatherBuddy.Config.FisherSetName,   s => GatherBuddy.Config.FisherSetName   = s)),
         ]),
-        new("General", "Alarms",
+        new("一般", "アラーム",
         [
-            new("Enable Alarms",                                  ConfigFunctions.DrawAlarmToggle),
-            new("Enable Alarms in Duty",                          ConfigFunctions.DrawAlarmsInDutyToggle),
-            new("Enable Alarms Only In-Game",                     ConfigFunctions.DrawAlarmsOnlyWhenLoggedInToggle),
-            new("Weather Change Alarm",                           ConfigFunctions.DrawWeatherAlarmPicker),
-            new("Eorzea Hour Change Alarm",                       ConfigFunctions.DrawHourAlarmPicker),
+            new("アラームを有効化",                               ConfigFunctions.DrawAlarmToggle),
+            new("コンテンツ中もアラームを有効化",                 ConfigFunctions.DrawAlarmsInDutyToggle),
+            new("ログイン中のみアラームを有効化",                 ConfigFunctions.DrawAlarmsOnlyWhenLoggedInToggle),
+            new("天候変化アラーム",                               ConfigFunctions.DrawWeatherAlarmPicker),
+            new("エオルゼア時間アラーム",                         ConfigFunctions.DrawHourAlarmPicker),
         ]),
-        new("General", "Messages",
+        new("一般", "メッセージ",
         [
-            new("Chat Type for Messages",                         ConfigFunctions.DrawPrintTypeSelector),
-            new("Chat Type for Errors",                           ConfigFunctions.DrawErrorTypeSelector),
-            new("Print Map Location",                             ConfigFunctions.DrawMapMarkerPrintBox),
-            new("Print Node Uptimes On Gather",                   ConfigFunctions.DrawPrintUptimesBox),
-            new("Print Clipboard Information",                    ConfigFunctions.DrawPrintClipboardBox),
-            new("Alarm Chat Format",                              ConfigFunctions.DrawAlarmFormatInput),
-            new("Identified Gatherable Chat Format",              ConfigFunctions.DrawIdentifiedGatherableFormatInput),
+            new("通常メッセージのチャット種類",                   ConfigFunctions.DrawPrintTypeSelector),
+            new("エラーのチャット種類",                           ConfigFunctions.DrawErrorTypeSelector),
+            new("マップ位置を表示",                               ConfigFunctions.DrawMapMarkerPrintBox),
+            new("採集時に採集場の出現時間を表示",                 ConfigFunctions.DrawPrintUptimesBox),
+            new("クリップボード情報を表示",                       ConfigFunctions.DrawPrintClipboardBox),
+            new("アラームのチャット形式",                         ConfigFunctions.DrawAlarmFormatInput),
+            new("識別した採集物のチャット形式",                   ConfigFunctions.DrawIdentifiedGatherableFormatInput),
         ]),
-        new("Interface", "Config Window",
+        new("UI", "設定ウィンドウ",
         [
-            new("Open Config UI On Start",                        ConfigFunctions.DrawOpenOnStartBox),
-            new("Escape Closes Main Window",                      ConfigFunctions.DrawRespectEscapeBox),
-            new("Lock Config UI Movement",                        ConfigFunctions.DrawLockPositionBox),
-            new("Lock Config UI Size",                            ConfigFunctions.DrawLockResizeBox),
-            new("Show Names in Weather Tab",                      ConfigFunctions.DrawWeatherTabNamesBox),
-            new("Show Status Line",                               ConfigFunctions.DrawShowStatusLineBox),
-            new("Hide GatherClippy Button",                       ConfigFunctions.DrawHideClippyBox),
-            new("Hotkey to Open Main Interface",                  ConfigFunctions.DrawMainInterfaceHotkeyInput),
+            new("起動時に設定UIを開く",                           ConfigFunctions.DrawOpenOnStartBox),
+            new("Escapeでメインウィンドウを閉じる",               ConfigFunctions.DrawRespectEscapeBox),
+            new("設定UIの移動をロック",                           ConfigFunctions.DrawLockPositionBox),
+            new("設定UIのサイズをロック",                         ConfigFunctions.DrawLockResizeBox),
+            new("天候タブに名前を表示",                           ConfigFunctions.DrawWeatherTabNamesBox),
+            new("ステータス行を表示",                             ConfigFunctions.DrawShowStatusLineBox),
+            new("GatherClippyボタンを非表示",                     ConfigFunctions.DrawHideClippyBox),
+            new("メイン画面を開くホットキー",                     ConfigFunctions.DrawMainInterfaceHotkeyInput),
         ]),
-        new("Interface", "Fish Timer",
+        new("UI", "釣りタイマー",
         [
-            new("Keep Fish Records",                              ConfigFunctions.DrawKeepRecordsBox),
-            new("Use Local Time in Records",                      ConfigFunctions.DrawShowLocalTimeInRecordsBox),
-            new("Show Fish Timer",                                ConfigFunctions.DrawFishTimerBox),
-            new("Edit Fish Timer",                                ConfigFunctions.DrawFishTimerEditBox),
-            new("Enable Fish Timer Clickthrough",                 ConfigFunctions.DrawFishTimerClickthroughBox),
-            new("Hide Uncaught Fish in Fish Timer",               ConfigFunctions.DrawFishTimerHideBox),
-            new("Hide Unavailable Fish in Fish Timer",            ConfigFunctions.DrawFishTimerHideBox2),
-            new("Show Uptimes in Fish Timer",                     ConfigFunctions.DrawFishTimerUptimesBox),
-            new("Fish Timer Bite Time Scale",                     ConfigFunctions.DrawFishTimerScale),
-            new("Fish Timer Interval Separators",                 ConfigFunctions.DrawFishTimerIntervals),
-            new("Fish Timer Interval Rounding",                   ConfigFunctions.DrawFishTimerIntervalsRounding),
-            new("Hide Catch Popup",                               ConfigFunctions.DrawHideFishPopupBox),
-            new("Show Collectable Hints",                         ConfigFunctions.DrawCollectableHintPopupBox),
-            new("Show Multi Hook Hints",                          ConfigFunctions.DrawDoubleHookHintPopupBox),
+            new("釣果記録を保存",                                 ConfigFunctions.DrawKeepRecordsBox),
+            new("記録にローカル時間を使用",                       ConfigFunctions.DrawShowLocalTimeInRecordsBox),
+            new("釣りタイマーを表示",                             ConfigFunctions.DrawFishTimerBox),
+            new("釣りタイマーを編集",                             ConfigFunctions.DrawFishTimerEditBox),
+            new("釣りタイマーのクリック透過を有効化",             ConfigFunctions.DrawFishTimerClickthroughBox),
+            new("未釣果の魚をタイマーで非表示",                   ConfigFunctions.DrawFishTimerHideBox),
+            new("現在釣れない魚をタイマーで非表示",               ConfigFunctions.DrawFishTimerHideBox2),
+            new("釣りタイマーに出現時間を表示",                   ConfigFunctions.DrawFishTimerUptimesBox),
+            new("釣りタイマーのアタリ時間スケール",               ConfigFunctions.DrawFishTimerScale),
+            new("釣りタイマーの区切り線",                         ConfigFunctions.DrawFishTimerIntervals),
+            new("釣りタイマー秒数の丸め",                         ConfigFunctions.DrawFishTimerIntervalsRounding),
+            new("釣果ポップアップを非表示",                       ConfigFunctions.DrawHideFishPopupBox),
+            new("収集品ヒントを表示",                             ConfigFunctions.DrawCollectableHintPopupBox),
+            new("複数釣りヒントを表示",                           ConfigFunctions.DrawDoubleHookHintPopupBox),
         ]),
-        new("Interface", "Fish Stats",
+        new("UI", "釣り統計",
         [
-            new("Enable Fish Stats",                              ConfigFunctions.DrawEnableFishStats),
-            new("Copy Time Stats when reporting",                 ConfigFunctions.DrawEnableReportTime),
-            new("Copy Sizes Stats when reporting",                ConfigFunctions.DrawEnableReportSize),
-            new("Copy Multi Hook Stats when reporting",           ConfigFunctions.DrawEnableReportMulti),
-            new("Enable Graphs",                                  ConfigFunctions.DrawEnableGraphs),
+            new("釣り統計を有効化",                               ConfigFunctions.DrawEnableFishStats),
+            new("報告時に時間統計をコピー",                       ConfigFunctions.DrawEnableReportTime),
+            new("報告時にサイズ統計をコピー",                     ConfigFunctions.DrawEnableReportSize),
+            new("報告時に複数釣り統計をコピー",                   ConfigFunctions.DrawEnableReportMulti),
+            new("グラフを有効化",                                 ConfigFunctions.DrawEnableGraphs),
         ]),
-        new("Interface", "Gather Window",
+        new("UI", "採集ウィンドウ",
         [
-            new("Show Gather Window",                             ConfigFunctions.DrawShowGatherWindowBox),
-            new("Anchor Gather Window to Bottom Left",            ConfigFunctions.DrawGatherWindowAnchorBox),
-            new("Show Gather Window Timers",                      ConfigFunctions.DrawGatherWindowTimersBox),
-            new("Show Active Alarms in Gather Window",            ConfigFunctions.DrawGatherWindowAlarmsBox),
-            new("Sort Gather Window by Uptime",                   ConfigFunctions.DrawSortGatherWindowBox),
-            new("Show Only Available Items",                      ConfigFunctions.DrawGatherWindowShowOnlyAvailableBox),
-            new("Hide Completed Items",                           ConfigFunctions.DrawHideGatherWindowCompletedItemsBox),
-            new("Hide Gather Window in Duty",                     ConfigFunctions.DrawHideGatherWindowInDutyBox),
-            new("Only Show Gather Window if Holding Key",         ConfigFunctions.DrawGatherWindowHoldKey),
-            new("Lock Gather Window Position",                    ConfigFunctions.DrawGatherWindowLockBox),
-            new("Hotkey to Open Gather Window",                   ConfigFunctions.DrawGatherWindowHotkeyInput),
-            new("Modifier to Delete Items on Right-Click",        ConfigFunctions.DrawGatherWindowDeleteModifierInput),
+            new("採集ウィンドウを表示",                           ConfigFunctions.DrawShowGatherWindowBox),
+            new("採集ウィンドウを左下に固定",                     ConfigFunctions.DrawGatherWindowAnchorBox),
+            new("採集ウィンドウにタイマーを表示",                 ConfigFunctions.DrawGatherWindowTimersBox),
+            new("採集ウィンドウに有効アラームを表示",             ConfigFunctions.DrawGatherWindowAlarmsBox),
+            new("採集ウィンドウを出現時間順で並べ替え",           ConfigFunctions.DrawSortGatherWindowBox),
+            new("出現中アイテムのみ表示",                         ConfigFunctions.DrawGatherWindowShowOnlyAvailableBox),
+            new("完了アイテムを非表示",                           ConfigFunctions.DrawHideGatherWindowCompletedItemsBox),
+            new("コンテンツ中は採集ウィンドウを非表示",           ConfigFunctions.DrawHideGatherWindowInDutyBox),
+            new("キー押下中のみ採集ウィンドウを表示",             ConfigFunctions.DrawGatherWindowHoldKey),
+            new("採集ウィンドウ位置をロック",                     ConfigFunctions.DrawGatherWindowLockBox),
+            new("採集ウィンドウを開くホットキー",                 ConfigFunctions.DrawGatherWindowHotkeyInput),
+            new("右クリック削除に使う修飾キー",                   ConfigFunctions.DrawGatherWindowDeleteModifierInput),
         ]),
-        new("Interface", "Spearfishing",
+        new("UI", "刺突漁",
         [
-            new("Show Spearfishing Helper",                       ConfigFunctions.DrawSpearfishHelperBox),
-            new("Show Fish Name Overlay",                         ConfigFunctions.DrawSpearfishNamesBox),
-            new("Show Speed of Fish in Overlay",                  ConfigFunctions.DrawSpearfishSpeedBox),
-            new("Show List of Available Fish",                    ConfigFunctions.DrawAvailableSpearfishBox),
-            new("Show Speed and Size as Text",                    ConfigFunctions.DrawSpearfishIconsAsTextBox),
-            new("Show Center Line",                               ConfigFunctions.DrawSpearfishCenterLineBox),
-            new("Show Fish Names in Fixed Position",              ConfigFunctions.DrawSpearfishFishNameFixed),
-            new("Fish Name Position Percentage",                  ConfigFunctions.DrawSpearfishFishNamePercentage),
+            new("刺突漁ヘルパーを表示",                           ConfigFunctions.DrawSpearfishHelperBox),
+            new("魚名オーバーレイを表示",                         ConfigFunctions.DrawSpearfishNamesBox),
+            new("オーバーレイに魚の速度を表示",                   ConfigFunctions.DrawSpearfishSpeedBox),
+            new("釣れる魚リストを表示",                           ConfigFunctions.DrawAvailableSpearfishBox),
+            new("速度とサイズを文字で表示",                       ConfigFunctions.DrawSpearfishIconsAsTextBox),
+            new("中央線を表示",                                   ConfigFunctions.DrawSpearfishCenterLineBox),
+            new("魚名を固定位置に表示",                           ConfigFunctions.DrawSpearfishFishNameFixed),
+            new("魚名位置の割合",                                 ConfigFunctions.DrawSpearfishFishNamePercentage),
         ]),
-        new("", "Colors",
+        new("", "色",
         [
-            new("Colors", DrawAllColors),
+            new("色", DrawAllColors),
         ]),
     ];
 
@@ -1670,9 +1670,9 @@ public partial class Interface
     private void DrawConfigTab()
     {
         using var id  = ImRaii.PushId("Config");
-        using var tab = ImRaii.TabItem("Config");
-        ImGuiUtil.HoverTooltip("Set up your very own GatherBuddy to your meticulous specifications.\n"
-          + "If you treat him well, he might even become a real boy.");
+        using var tab = ImRaii.TabItem("設定");
+        ImGuiUtil.HoverTooltip("GatherBuddy JP の動作を設定します。\n"
+          + "自動採集、テレポ、移動、表示、釣り支援などを調整できます。");
 
         if (!tab)
             return;
@@ -1686,7 +1686,7 @@ public partial class Interface
             if (leftChild)
             {
                 ImGui.SetNextItemWidth(-1);
-                ImGui.InputTextWithHint("##ConfigSearch", "Search settings...", ref _configSearch, 256);
+                ImGui.InputTextWithHint("##ConfigSearch", "設定を検索...", ref _configSearch, 256);
                 ImGui.Separator();
                 DrawConfigPageSelector();
             }
@@ -1769,7 +1769,7 @@ public partial class Interface
         {
             var startY = ImGui.GetCursorPosY();
             ImGui.AlignTextToFramePadding();
-            ImGui.TextDisabled("No settings matched your search.");
+            ImGui.TextDisabled("一致する設定がありません。");
             var targetY = startY + ImGui.GetFrameHeightWithSpacing();
             if (ImGui.GetCursorPosY() < targetY)
                 ImGui.SetCursorPosY(targetY);

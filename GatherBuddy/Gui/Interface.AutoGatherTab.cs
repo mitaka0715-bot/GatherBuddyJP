@@ -126,7 +126,7 @@ public partial class Interface
 
     private void DrawAutoGatherListsLine()
     {
-        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Copy.ToIconString(), IconButtonSize, "Copy current auto-gather list to clipboard.",
+        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Copy.ToIconString(), IconButtonSize, "現在の自動採集リストをクリップボードへコピーします。",
                 _autoGatherListsCache.Selector.Selected == null, true))
         {
             var list = _autoGatherListsCache.Selector.Selected!;
@@ -134,18 +134,18 @@ public partial class Interface
             {
                 var s = new AutoGatherList.Config(list).ToBase64();
                 ImGui.SetClipboardText(s);
-                Communicator.PrintClipboardMessage("Auto-gather list ", list.Name);
+                Communicator.PrintClipboardMessage("自動採集リスト ", list.Name);
             }
             catch (Exception e)
             {
-                Communicator.PrintClipboardMessage("Auto-gather list ", list.Name, e);
+                Communicator.PrintClipboardMessage("自動採集リスト ", list.Name, e);
             }
         }
 
         if (GatherBuddy.AutoGather.ArtisanExporter.ArtisanAssemblyEnabled)
         {
-            if (ImGuiUtil.DrawDisabledButton("Import From Artisan", Vector2.Zero,
-                    "Import your lists from Artisan into GBR\nBrings up a dropdown to select which list to import.\nA new list will be created in GBR when you click on the name of the list in the dropdown.",
+            if (ImGuiUtil.DrawDisabledButton("Artisanからインポート", Vector2.Zero,
+                    "ArtisanのリストをGatherBuddy JPへ取り込みます。\n取り込むリストをドロップダウンから選択します。\nリスト名をクリックすると新しい自動採集リストが作成されます。",
                     !GatherBuddy.AutoGather.ArtisanExporter.ArtisanAssemblyEnabled))
             {
                 ImGui.OpenPopup($"artisanImport");
@@ -169,11 +169,11 @@ public partial class Interface
                     {
                         if (ImGui.Selectable($"{kvp.Value}##{kvp.Key}"))
                         {
-                            Communicator.Print($"Importing '{kvp.Value}' from Artisan...");
+                            Communicator.Print($"Artisanから '{kvp.Value}' をインポートしています...");
                             GatherBuddy.AutoGather.ArtisanExporter.StartArtisanImport(kvp);
                         }
 
-                        ImGuiUtil.HoverTooltip($"{kvp.Value} ({kvp.Key})\n(Click to import to new auto-gather list)");
+                        ImGuiUtil.HoverTooltip($"{kvp.Value} ({kvp.Key})\nクリックで新しい自動採集リストへ取り込みます");
                     }
                 }
 
@@ -182,7 +182,7 @@ public partial class Interface
             }
         }
 
-        if (ImGuiUtil.DrawDisabledButton("Import from TeamCraft", Vector2.Zero, "Populate list from clipboard contents (TeamCraft format)",
+        if (ImGuiUtil.DrawDisabledButton("TeamCraftからインポート", Vector2.Zero, "クリップボードのTeamCraft形式データからリストを作成します",
                 _autoGatherListsCache.Selector.Selected == null))
         {
             var clipboardText = ImGuiUtil.GetClipboardText();
@@ -241,23 +241,23 @@ public partial class Interface
                 }
                 catch (Exception e)
                 {
-                    Communicator.PrintClipboardMessage("Error importing auto-gather list", e.ToString());
+                    Communicator.PrintClipboardMessage("自動採集リストのインポートに失敗しました", e.ToString());
                 }
             }
         }
 
         ImGui.SetCursorPosX(ImGui.GetWindowSize().X - 50);
         string agHelpText =
-            "If the config option to sort by location is not selected, items are gathered in the order of the enabled lists, then in the order of items in each list, " +
-            "but timed nodes and fish are always prioritized.\n" +
-            "You can drag and drop lists to move them.\n" +
-            "You can drag and drop items within a specific list to rearrange them.\n" +
-            "You can drag and drop an item onto a different list from the selector to move it between lists.\n" +
-            "In the Gather Window, you can hold Control and Right-Click an item to delete it from the list it belongs to.";
+            "場所順ソートを使わない場合、有効なリスト順、リスト内のアイテム順で採集します。\n" +
+            "ただし時間限定の採集場と魚は常に優先されます。\n" +
+            "リストはドラッグ&ドロップで並べ替えできます。\n" +
+            "リスト内のアイテムもドラッグ&ドロップで並べ替えできます。\n" +
+            "アイテムを別リストへドラッグすると移動できます。\n" +
+            "採集ウィンドウではCtrlを押しながら右クリックでアイテムを削除できます。";
 
 
         ImGuiEx.InfoMarker(agHelpText,                    null, FontAwesomeIcon.InfoCircle.ToIconString(), false);
-        ImGuiEx.InfoMarker("Auto-Gather Support Discord", null, FontAwesomeIcon.Comments.ToIconString(),   false);
+        ImGuiEx.InfoMarker("自動採集サポートDiscord", null, FontAwesomeIcon.Comments.ToIconString(),   false);
         if (ImGuiEx.HoveredAndClicked())
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
@@ -278,18 +278,18 @@ public partial class Interface
             _plugin.AutoGatherListsManager.ChangeDescription(list, newDesc);
 
         var tmp = list.Enabled;
-        if (ImGui.Checkbox("Enabled##list", ref tmp) && tmp != list.Enabled)
+        if (ImGui.Checkbox("有効##list", ref tmp) && tmp != list.Enabled)
             _plugin.AutoGatherListsManager.ToggleList(list);
 
         ImGui.SameLine();
-        ImGuiUtil.Checkbox("Fallback##list",
-            "Items from fallback lists won't be auto-gathered.\n"
-          + "But if a node doesn't contain any items from regular lists or if you gathered enough of them,\n"
-          + "items from fallback lists would be gathered instead if they could be found in that node.",
+        ImGuiUtil.Checkbox("予備リスト##list",
+            "予備リストのアイテムは通常は自動採集されません。\n"
+          + "通常リストの対象が採集場に無い、または必要数を採り終えた場合に、\n"
+          + "同じ採集場で見つかれば予備リストのアイテムを採集します。",
             list.Fallback, (v) => _plugin.AutoGatherListsManager.SetFallback(list, v));
         ImGui.SameLine();
-        ImGuiUtil.Checkbox("Remove Completed##list",
-            "Automatically remove enabled items from this list once your inventory reaches the configured quantity for them.",
+        ImGuiUtil.Checkbox("完了品を削除##list",
+            "所持数が設定数に達した有効アイテムを、このリストから自動で削除します。",
             list.RemoveCompletedItems, (v) => _plugin.AutoGatherListsManager.SetRemoveCompletedItems(list, v));
         if (!ReferenceEquals(_autoGatherListsCache.ItemFilterList, list))
         {
@@ -299,10 +299,10 @@ public partial class Interface
 
         var itemFilter = _autoGatherListsCache.ItemFilter;
         ImGui.SetNextItemWidth(130f * Scale);
-        if (ImGui.InputTextWithHint("##autoGatherItemFilter", "Search items...", ref itemFilter, 128))
+        if (ImGui.InputTextWithHint("##autoGatherItemFilter", "アイテム検索...", ref itemFilter, 128))
             _autoGatherListsCache.ItemFilter = itemFilter;
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Filter items by name. Reordering is disabled while a search is active.");
+            ImGui.SetTooltip("名前でアイテムを絞り込みます。検索中は並べ替えできません。");
 
         var filterKeywords = _autoGatherListsCache.ItemFilter.Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Select(keyword => keyword.Trim())
@@ -321,15 +321,15 @@ public partial class Interface
         var bulkActionButtonSize = new Vector2(ImGui.GetFrameHeight() + 6f * Scale, ImGui.GetFrameHeight());
 
         ImGui.SameLine();
-        if (DrawAutoGatherIconButton("EnableVisibleItems", FontAwesomeIcon.Check.ToIconString(), bulkActionButtonSize, "Enable visible items in this list.", visibleItems.Count == 0))
+        if (DrawAutoGatherIconButton("EnableVisibleItems", FontAwesomeIcon.Check.ToIconString(), bulkActionButtonSize, "表示中のアイテムを有効化します。", visibleItems.Count == 0))
             _plugin.AutoGatherListsManager.ChangeEnabled(list, visibleItems, true);
 
         ImGui.SameLine();
-        if (DrawAutoGatherIconButton("DisableVisibleItems", FontAwesomeIcon.Ban.ToIconString(), bulkActionButtonSize, "Disable visible items in this list.", visibleItems.Count == 0))
+        if (DrawAutoGatherIconButton("DisableVisibleItems", FontAwesomeIcon.Ban.ToIconString(), bulkActionButtonSize, "表示中のアイテムを無効化します。", visibleItems.Count == 0))
             _plugin.AutoGatherListsManager.ChangeEnabled(list, visibleItems, false);
 
         ImGui.SameLine();
-        ImGui.Text($"{visibleItems.Count} / {list.Items.Count} Items in List");
+        ImGui.Text($"{visibleItems.Count} / {list.Items.Count} 件");
         ImGui.NewLine();
         ImGui.SetCursorPosX(ImGui.GetCursorPosX() - ImGui.GetStyle().ItemInnerSpacing.X);
         using var box = ImRaii.ListBox("##gatherWindowList", new Vector2(-1.5f * ImGui.GetStyle().ItemSpacing.X, -1));
@@ -347,7 +347,7 @@ public partial class Interface
             var       item  = list.Items[i];
             using var id    = ImRaii.PushId((int)item.ItemId);
             using var group = ImRaii.Group();
-            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Trash.ToIconString(), IconButtonSize, "Delete this item from the list", false,
+            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Trash.ToIconString(), IconButtonSize, "このアイテムをリストから削除します", false,
                     true))
                 deleteIndex = i;
             ImGui.SameLine();
@@ -364,7 +364,7 @@ public partial class Interface
             }
 
             ImGui.SameLine();
-            ImGui.Text("Inventory: ");
+            ImGui.Text("所持数: ");
             var invTotal = item.GetTotalCount();
             ImGui.SameLine(0f, ImGui.CalcTextSize($"0000 / ").X - ImGui.CalcTextSize($"{invTotal} / ").X);
             ImGui.Text($"{invTotal} / ");
@@ -404,7 +404,7 @@ public partial class Interface
         }
 
         if (visibleItemIndices.Count == 0)
-            ImGui.TextDisabled("No matching items.");
+            ImGui.TextDisabled("一致するアイテムがありません。");
 
         if (deleteIndex >= 0)
             _plugin.AutoGatherListsManager.RemoveItem(list, deleteIndex);
@@ -412,7 +412,7 @@ public partial class Interface
         if (changeIndex >= 0)
             _plugin.AutoGatherListsManager.ChangeItem(list, gatherables[changeItemIndex], changeIndex);
 
-        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), IconButtonSize, "Add this item at the end of the list", false,
+        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), IconButtonSize, "このアイテムをリスト末尾に追加します", false,
                 true))
             _plugin.AutoGatherListsManager.AddItem(list, gatherables[_autoGatherListsCache.NewGatherableIdx]);
 
@@ -423,7 +423,7 @@ public partial class Interface
             foreach (var i in list.Items)
                 _plugin.AutoGatherListsManager.ChangeEnabled(list, i, allEnabled);
         }
-        ImGuiUtil.HoverTooltip((allEnabled ? "Disable" : "Enable" ) + " all items in the list");
+        ImGuiUtil.HoverTooltip(allEnabled ? "リスト内の全アイテムを無効化します" : "リスト内の全アイテムを有効化します");
 
         ImGui.SameLine();
         if (selector.Draw(_autoGatherListsCache.NewGatherableIdx, out var idx))
@@ -475,10 +475,10 @@ public partial class Interface
     private void DrawAutoGatherTab()
     {
         using var id  = ImRaii.PushId("AutoGatherLists");
-        using var tab = ImRaii.TabItem("Auto-Gather");
+        using var tab = ImRaii.TabItem("自動採集");
 
         ImGuiUtil.HoverTooltip(
-            "You read that right! Auto-gather!");
+            "自動採集リストの作成・編集を行います。");
 
         if (!tab)
             return;
@@ -504,7 +504,7 @@ public partial class Interface
 
         ImGui.SameLine();
 
-        ItemDetailsWindow.Draw("List Details", DrawAutoGatherListsLine, () =>
+        ItemDetailsWindow.Draw("リスト詳細", DrawAutoGatherListsLine, () =>
         {
             if (_autoGatherListsCache.Selector.Selected != null)
                 DrawAutoGatherList(_autoGatherListsCache.Selector.Selected);

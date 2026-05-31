@@ -75,8 +75,8 @@ public partial class Interface
 
             private static readonly string[] FilterNames =
             [
-                "Leveling",
-                "Non-Leveling",
+                "レベリング用",
+                "通常",
             ];
 
             public LevelingColumn()
@@ -128,21 +128,21 @@ public partial class Interface
             }
         }
 
-        private static readonly NameColumn        _nameColumn        = new() { Label = "Item Name..." };
-        private static readonly GatheredColumn    _gatheredColumn    = new() { Label = "Log" };
-        private static readonly LevelingColumn    _levelingColumn    = new() { Label = "Leveling" };
-        private static readonly NextUptimeColumn  _nextUptimeColumn  = new() { Label = "Next Uptime" };
-        private static readonly AetheryteColumn   _aetheryteColumn   = new() { Label = "Aetheryte" };
-        private static readonly LevelColumn       _levelColumn       = new() { Label = "Lvl" };
-        private static readonly JobColumn         _jobColumn         = new() { Label = "Gathering" };
-        private static readonly TypeColumn        _typeColumn        = new() { Label = "Node Type" };
-        private static readonly ExpansionColumn   _expansionColumn   = new() { Label = "Exp." };
-        private static readonly FolkloreColumn    _folkloreColumn    = new() { Label = "Folklore" };
-        private static readonly UptimesColumn     _uptimesColumn     = new() { Label = "Uptimes" };
-        private static readonly BestNodeColumn    _bestNodeColumn    = new() { Label = "Best Node" };
-        private static readonly BestZoneColumn    _bestZoneColumn    = new() { Label = "Best Zone" };
-        private static readonly ItemIdColumn      _itemIdColumn      = new() { Label = "Item Id" };
-        private static readonly GatheringIdColumn _gatheringIdColumn = new() { Label = "G. Id" };
+        private static readonly NameColumn        _nameColumn        = new() { Label = "アイテム名..." };
+        private static readonly GatheredColumn    _gatheredColumn    = new() { Label = "採集手帳" };
+        private static readonly LevelingColumn    _levelingColumn    = new() { Label = "レベリング" };
+        private static readonly NextUptimeColumn  _nextUptimeColumn  = new() { Label = "次の出現" };
+        private static readonly AetheryteColumn   _aetheryteColumn   = new() { Label = "エーテライト" };
+        private static readonly LevelColumn       _levelColumn       = new() { Label = "Lv" };
+        private static readonly JobColumn         _jobColumn         = new() { Label = "採集職" };
+        private static readonly TypeColumn        _typeColumn        = new() { Label = "採集場種別" };
+        private static readonly ExpansionColumn   _expansionColumn   = new() { Label = "拡張" };
+        private static readonly FolkloreColumn    _folkloreColumn    = new() { Label = "伝承録" };
+        private static readonly UptimesColumn     _uptimesColumn     = new() { Label = "出現時間" };
+        private static readonly BestNodeColumn    _bestNodeColumn    = new() { Label = "最適採集場" };
+        private static readonly BestZoneColumn    _bestZoneColumn    = new() { Label = "最適エリア" };
+        private static readonly ItemIdColumn      _itemIdColumn      = new() { Label = "アイテムID" };
+        private static readonly GatheringIdColumn _gatheringIdColumn = new() { Label = "採集ID" };
 
         private class ItemFilterColumn : ColumnFlags<ItemFilter, ExtendedGatherable>
         {
@@ -312,7 +312,7 @@ public partial class Interface
                 _plugin.Interface.CreateContextMenu(item.Data);
 
                 if (selected)
-                    _plugin.Executor.GatherItem(item.Data);
+                    StartAutoGatherForItem(item.Data);
             }
         }
 
@@ -775,9 +775,9 @@ public partial class Interface
     private void DrawItemTab()
     {
         using var id  = ImRaii.PushId("Gatherables");
-        using var tab = ImRaii.TabItem("Gatherables");
-        ImGuiUtil.HoverTooltip("Breaking rocks with a pickaxe or felling trees counts as gathering, why do you ask?\n"
-          + "Find all information about botanist and miner items you could ever need.");
+        using var tab = ImRaii.TabItem("採集アイテム");
+        ImGuiUtil.HoverTooltip("採掘・園芸で採れるアイテムの一覧です。\n"
+          + "採集場所、最寄りエーテライト、出現時間を確認できます。");
         if (!tab)
             return;
 

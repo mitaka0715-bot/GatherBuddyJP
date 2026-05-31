@@ -762,7 +762,7 @@ namespace GatherBuddy.AutoGather
                 if (!AutoHook.Enabled)
                 {
                     Communicator.PrintError(
-                        "[GatherBuddyReborn] You have fish on your auto-gather list but AutoHook is not installed or enabled. Auto-gather cannot continue. Please install and enable AutoHook or remove fish from your auto-gather lists.");
+                        "[GatherBuddy JP] 自動採集リストに魚が含まれていますが、AutoHook が未導入または無効です。自動採集を続行できません。AutoHook を有効にするか、リストから魚を外してください。");
                     AbortAutoGather();
                     return;
                 }
@@ -1887,7 +1887,7 @@ namespace GatherBuddy.AutoGather
                 .ToList();
 
             var visibleNodes = Dalamud.Objects
-                .Where(o => allPositions.Contains((o.BaseId, o.Position)))
+                .Where(IsKnownVisibleNode)
                 .ToList();
 
             var closestTargetableNode = visibleNodes
@@ -1921,7 +1921,7 @@ namespace GatherBuddy.AutoGather
 
             if (CurrentDestination != default && IsPathing)
             {
-                var currentNode = visibleNodes.FirstOrDefault(o => o.Position == CurrentDestination);
+                var currentNode = visibleNodes.FirstOrDefault(o => IsSameNodePosition(o.Position, CurrentDestination));
                 if (currentNode != null && !currentNode.IsTargetable)
                     GatherBuddy.Log.Verbose($"Far node is not targetable, distance {currentNode.Position.DistanceToPlayer()}.");
 
@@ -1986,6 +1986,14 @@ namespace GatherBuddy.AutoGather
             var jump = Diadem.IsInside && TryWindmireJump(ref selectedFarNode.Position);
 
             Navigate(selectedFarNode.Position, ShouldFly(selectedFarNode.Position), direct: jump, nodeId: jump ? null : selectedFarNode.Id);
+
+            bool IsKnownVisibleNode(IGameObject gameObject)
+                => gameObject.ObjectKind == ObjectKind.GatheringPoint
+                && allPositions.Any(node => node.id == gameObject.BaseId && IsSameNodePosition(node.Position, gameObject.Position));
+
+            static bool IsSameNodePosition(Vector3 a, Vector3 b)
+                => Vector2.DistanceSquared(a.ToVector2(), b.ToVector2()) <= 6f * 6f
+                && Math.Abs(a.Y - b.Y) <= 8f;
         }
 
         private unsafe void LeaveTheDiadem()
