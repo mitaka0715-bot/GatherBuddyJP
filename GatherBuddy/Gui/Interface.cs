@@ -17,6 +17,7 @@ public partial class Interface : Window, IDisposable
 
     private static GatherBuddy _plugin                 = null!;
     private        TimeStamp   _earliestKeyboardToggle = TimeStamp.Epoch;
+    private        bool        _selectConfigTab;
 
     private static List<ExtendedFish>? _extendedFishList;
 

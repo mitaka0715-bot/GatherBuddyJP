@@ -239,9 +239,26 @@ public partial class Interface
 
     private void DrawHeader()
     {
-        DrawAlarmRow();
-        ImGui.Dummy(HorizontalSpace);
-        DrawTimeRow();
-        ImGui.Dummy(HorizontalSpace);
+        using var group = ImRaii.Group();
+
+        ImGui.AlignTextToFramePadding();
+        ImGui.TextUnformatted("GatherBuddy JP");
+
+        ImGui.SameLine();
+        if (ImGui.Button("設定##HeaderConfig"))
+            _selectConfigTab = true;
+
+        ImGui.SameLine();
+        var enabled = GatherBuddy.AutoGather.Enabled;
+        if (ImGui.Checkbox("自動採集##HeaderAutoGather", ref enabled))
+            GatherBuddy.AutoGather.Enabled = enabled;
+
+        ImGui.SameLine();
+        var statusColor = enabled
+            ? new Vector4(0.25f, 0.90f, 0.65f, 1f)
+            : new Vector4(0.72f, 0.72f, 0.72f, 1f);
+        ImGui.TextColored(statusColor, $"状態: {GatherBuddy.AutoGather.AutoStatus}");
+
+        ImGui.Separator();
     }
 }

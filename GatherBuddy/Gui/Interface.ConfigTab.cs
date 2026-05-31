@@ -1669,8 +1669,14 @@ public partial class Interface
 
     private void DrawConfigTab()
     {
-        using var id  = ImRaii.PushId("Config");
-        using var tab = ImRaii.TabItem("設定");
+        using var id = ImRaii.PushId("Config");
+        var       selectFromHeader = _selectConfigTab;
+        var       dummy            = true;
+        using var tab = selectFromHeader
+            ? ImRaii.TabItem("設定", ref dummy, ImGuiTabItemFlags.SetSelected)
+            : ImRaii.TabItem("設定");
+        if (selectFromHeader)
+            _selectConfigTab = false;
         ImGuiUtil.HoverTooltip("GatherBuddy JP の動作を設定します。\n"
           + "自動採集、テレポ、移動、表示、釣り支援などを調整できます。");
 
