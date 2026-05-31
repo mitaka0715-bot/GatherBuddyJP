@@ -23,7 +23,7 @@ $InternalName = "GatherBuddyJP"
 $PluginName = "GatherBuddy JP"
 $Author = "General Headquarters"
 $RepoUrl = "https://github.com/mitaka0715-bot/GatherBuddyJP"
-$IconUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png"
+$IconUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon.png"
 $ZipUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip"
 $Punchline = "Japanese-first gathering navigator for miners and botanists."
 $Description = "GatherBuddy JP is a Japanese-first gathering navigation plugin for miners and botanists. It provides item search, route planning, teleport-assisted travel, auto-gather lists, and vnavmesh-assisted movement."
@@ -158,7 +158,7 @@ function New-CleanPluginZip {
         Copy-Item -Destination $releaseDir -Force
 
     Copy-Item -LiteralPath (Join-Path $RepoRoot "README.md") -Destination (Join-Path $releaseDir "README.md") -Force
-    Copy-Item -LiteralPath (Join-Path $RepoRoot "images\icon.png") -Destination (Join-Path $releaseDir "icon.png") -Force
+    Copy-Item -LiteralPath (Join-Path $RepoRoot "icon.png") -Destination (Join-Path $releaseDir "icon.png") -Force
 }
 
 function Deploy-Plugin {
@@ -262,7 +262,7 @@ try {
     if ($Publish -and ($status.built -or $status.applied -or $Force)) {
         $changes = git status --porcelain
         if ($changes) {
-            Invoke-Git add manifest.json pluginmaster.json latest.zip README.md images/icon.png images/icon-512.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
+            Invoke-Git add manifest.json pluginmaster.json latest.zip README.md icon.png images/icon.png images/icon-512.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
             if (Test-Path -LiteralPath (Join-Path $RepoRoot "repo.json")) {
                 Invoke-Git rm repo.json
             }

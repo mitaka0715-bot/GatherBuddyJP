@@ -20,7 +20,7 @@
                          "Utility"
                      ],
     "IsTestingExclusive":  false,
-    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png",
+    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon.png",
     "Punchline":  "Japanese-first gathering navigator for miners and botanists.",
     "AcceptsFeedback":  true
 }
