@@ -88,12 +88,18 @@ function Ensure-JpMetadata {
 function Update-RepoJson {
     $manifestPath = Join-Path $RepoRoot "manifest.json"
     $repoPath = Join-Path $RepoRoot "repo.json"
+    $csprojPath = Join-Path $RepoRoot "GatherBuddy\GatherBuddy.csproj"
     $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+    $csprojXml = [xml](Get-Content -LiteralPath $csprojPath -Raw)
+    $assemblyVersion = $manifest.AssemblyVersion
+    if ([string]::IsNullOrWhiteSpace($assemblyVersion)) {
+        $assemblyVersion = $csprojXml.Project.PropertyGroup.Version | Select-Object -First 1
+    }
     $entry = [ordered]@{
         Author = $Author
         Name = $PluginName
         InternalName = $InternalName
-        AssemblyVersion = $manifest.AssemblyVersion
+        AssemblyVersion = $assemblyVersion
         TestingAssemblyVersion = $null
         RepoUrl = $RepoUrl
         ApplicableVersion = $manifest.ApplicableVersion
