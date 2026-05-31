@@ -146,7 +146,10 @@ public partial class GatherBuddy : IDalamudPlugin
             AlarmManager           = AlarmManager.Load();
             AutoGatherListsManager = AutoGatherListsManager.Load();
             GatherWindowManager    = GatherWindowManager.Load(AlarmManager);
-            AlarmManager.ForceEnable();
+            Config.AlarmsEnabled = false;
+            Config.ShowFishTimer = false;
+            Config.ShowSpearfishHelper = false;
+            AlarmManager.Disable();
             CraftingListManager   = new Crafting.CraftingListManager();
             MarketboardService    = new MarketboardService();
             RaphaelSolveCoordinator = new Crafting.RaphaelSolveCoordinator(Config.RaphaelSolverConfig);

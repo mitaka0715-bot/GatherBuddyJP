@@ -57,15 +57,9 @@ public partial class Interface : Window, IDisposable
             return;
 
         DrawItemTab();
-        DrawWeatherTab();
-        DrawAlarmTab();
         DrawGatherGroupTab();
-        DrawGatherWindowTab();
         DrawAutoGatherTab();
         DrawConfigTab();
-        DrawConfigPresetsTab();
-        DrawLocationsTab();
-        DrawDebugTab();
     }
 
     public void UpdateFlags()

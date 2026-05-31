@@ -429,13 +429,6 @@ public partial class Interface
             _plugin.GatherWindowManager.AddPreset(preset);
         }
 
-        if (ImGuiUtil.DrawDisabledButton("Create Alarms", Vector2.Zero, "Create a new Alarm Group from this gather group.",
-                _gatherGroupCache.Selector.Current == null))
-        {
-            var preset = new AlarmGroup(_gatherGroupCache.Selector.Current!);
-            _plugin.AlarmManager.AddGroup(preset);
-        }
-
         var       holdingCtrl = ImGui.GetIO().KeyCtrl;
         using var color       = ImRaii.PushColor(ImGuiCol.ButtonHovered, 0x8000A000, holdingCtrl);
         if (ImGui.Button("Restore Default Groups") && holdingCtrl && _plugin.GatherGroupManager.SetDefaults(true))

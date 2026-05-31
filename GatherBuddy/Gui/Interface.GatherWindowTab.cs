@@ -131,12 +131,6 @@ public partial class Interface
             }
         }
 
-        if (ImGuiUtil.DrawDisabledButton("Create Alarms", Vector2.Zero, "Create a new Alarm Group from this gather window preset.", _gatherWindowCache.Selector.Current == null))
-        {
-            var preset = new AlarmGroup(_gatherWindowCache.Selector.Current!);
-            _plugin.AlarmManager.AddGroup(preset);
-        }
-
         ImGuiComponents.HelpMarker(
             "If not sorting the Gather Window by uptimes, items are uniquely added in order of enabled preset, then order of item in preset.\n"
           + "You can drag and draw presets in the list to move them.\n"

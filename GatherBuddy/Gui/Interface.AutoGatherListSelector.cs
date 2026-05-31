@@ -71,6 +71,16 @@ public partial class Interface
 
         public AutoGatherListsDragDropData? DragDropItem { set; get; }
 
+        public AutoGatherList? SelectFirstList()
+        {
+            var leaf = FileSystem.Root.GetLeaves().FirstOrDefault();
+            if (leaf == null)
+                return null;
+
+            Select(leaf, true);
+            return leaf.Value;
+        }
+
         public void DrawBaitBuyListResultPopup()
         {
             if (_baitBuyListResultPopup == null)

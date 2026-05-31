@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -68,7 +68,6 @@ public partial class Interface
                 .Where(g => g.NodeList.SelectMany(l => l.WorldPositions.Values)
                     .SelectMany(p => p).Any())
                 .Cast<IGatherable>()
-                .Concat(GatherBuddy.GameData.Fishes.Values)
                 .GroupBy(g => g.ItemId)
                 .Select(g => g.First())
                 .OrderBy(g => g.Name[GatherBuddy.Language])
@@ -129,19 +128,19 @@ public partial class Interface
     private void DrawAutoGatherList(AutoGatherList list)
     {
         var tmp = list.Enabled;
-        if (ImGui.Checkbox("このリストを使う##list", ref tmp) && tmp != list.Enabled)
+        if (ImGui.Checkbox("このリストで自動採取する##list", ref tmp) && tmp != list.Enabled)
             _plugin.AutoGatherListsManager.ToggleList(list);
 
         ImGui.SameLine();
         ImGuiUtil.Checkbox("予備リスト##list",
-            "予備リストのアイテムは通常は自動採集されません。\n"
-          + "通常リストの対象が採集場に無い、または必要数を採り終えた場合に、\n"
-          + "同じ採集場で見つかれば予備リストのアイテムを採集します。",
-            list.Fallback, (v) => _plugin.AutoGatherListsManager.SetFallback(list, v));
+            "通常リストに対象がない場合だけ使う補助リストです。\n普段の採集では基本的にOFFのままで大丈夫です。",
+            list.Fallback, v => _plugin.AutoGatherListsManager.SetFallback(list, v));
+
         ImGui.SameLine();
         ImGuiUtil.Checkbox("完了品を削除##list",
             "所持数が設定数に達した有効アイテムを、このリストから自動で削除します。",
-            list.RemoveCompletedItems, (v) => _plugin.AutoGatherListsManager.SetRemoveCompletedItems(list, v));
+            list.RemoveCompletedItems, v => _plugin.AutoGatherListsManager.SetRemoveCompletedItems(list, v));
+
         if (!ReferenceEquals(_autoGatherListsCache.ItemFilterList, list))
         {
             _autoGatherListsCache.ItemFilterList = list;
@@ -153,13 +152,13 @@ public partial class Interface
         if (ImGui.InputTextWithHint("##autoGatherItemFilter", "アイテム検索...", ref itemFilter, 128))
             _autoGatherListsCache.ItemFilter = itemFilter;
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("名前でアイテムを絞り込みます。検索中は並べ替えできません。");
+            ImGui.SetTooltip("名前でリスト内のアイテムを絞り込みます。");
 
         var filterKeywords = _autoGatherListsCache.ItemFilter.Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Select(keyword => keyword.Trim())
             .Where(keyword => keyword.Length > 0)
             .ToArray();
-        var filteringItems   = filterKeywords.Length > 0;
+        var filteringItems     = filterKeywords.Length > 0;
         var visibleItemIndices = new List<int>(list.Items.Count);
         for (var i = 0; i < list.Items.Count; ++i)
         {
@@ -168,7 +167,7 @@ public partial class Interface
                 visibleItemIndices.Add(i);
         }
 
-        var visibleItems = visibleItemIndices.Select(index => list.Items[index]).ToList();
+        var visibleItems         = visibleItemIndices.Select(index => list.Items[index]).ToList();
         var bulkActionButtonSize = new Vector2(ImGui.GetFrameHeight() + 6f * Scale, ImGui.GetFrameHeight());
 
         ImGui.SameLine();
@@ -198,8 +197,7 @@ public partial class Interface
             var       item  = list.Items[i];
             using var id    = ImRaii.PushId((int)item.ItemId);
             using var group = ImRaii.Group();
-            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Trash.ToIconString(), IconButtonSize, "このアイテムをリストから削除します", false,
-                    true))
+            if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Trash.ToIconString(), IconButtonSize, "このアイテムをリストから削除します。", false, true))
                 deleteIndex = i;
             ImGui.SameLine();
 
@@ -263,8 +261,7 @@ public partial class Interface
         if (changeIndex >= 0)
             _plugin.AutoGatherListsManager.ChangeItem(list, gatherables[changeItemIndex], changeIndex);
 
-        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), IconButtonSize, "このアイテムをリスト末尾に追加します", false,
-                true))
+        if (ImGuiUtil.DrawDisabledButton(FontAwesomeIcon.Plus.ToIconString(), IconButtonSize, "選択したアイテムをリストに追加します。", false, true))
             _plugin.AutoGatherListsManager.AddItem(list, gatherables[_autoGatherListsCache.NewGatherableIdx]);
 
         ImGui.SameLine();
@@ -274,7 +271,7 @@ public partial class Interface
             foreach (var i in list.Items)
                 _plugin.AutoGatherListsManager.ChangeEnabled(list, i, allEnabled);
         }
-        ImGuiUtil.HoverTooltip(allEnabled ? "リスト内の全アイテムを無効化します" : "リスト内の全アイテムを有効化します");
+        ImGuiUtil.HoverTooltip(allEnabled ? "リスト内の全アイテムを無効化します。" : "リスト内の全アイテムを有効化します。");
 
         ImGui.SameLine();
         if (selector.Draw(_autoGatherListsCache.NewGatherableIdx, out var idx))
@@ -326,42 +323,28 @@ public partial class Interface
     private void DrawAutoGatherTab()
     {
         using var id  = ImRaii.PushId("AutoGatherLists");
-        using var tab = ImRaii.TabItem("自動採集");
+        using var tab = ImRaii.TabItem("自動採取");
 
-        ImGuiUtil.HoverTooltip(
-            "自動採集リストの作成・編集を行います。");
+        ImGuiUtil.HoverTooltip("自動採取リストの編集と開始を行います。");
 
         if (!tab)
             return;
 
         AutoGather.AutoGatherUI.DrawAutoGatherStatus();
 
-        var selectorWidth = _autoGatherListsCache.Selector.SelectorWidth;
-        using (var child = ImRaii.Child("AutoGatherListSelector", new Vector2(selectorWidth, -1), false))
+        var list = _autoGatherListsCache.Selector.Selected ?? _autoGatherListsCache.Selector.SelectFirstList();
+        if (list == null)
         {
-            if (child)
-                _autoGatherListsCache.Selector.Draw();
+            ImGui.TextDisabled("自動採取リストがありません。");
+            return;
         }
 
-        ImGui.SameLine();
-        ImGui.Button("##splitter", new Vector2(4, -1));
-        if (ImGui.IsItemActive())
-        {
-            var delta = ImGui.GetIO().MouseDelta.X;
-            selectorWidth += delta;
-            selectorWidth = Math.Clamp(selectorWidth, 150f * Scale, ImGui.GetWindowWidth() * 0.5f);
-            _autoGatherListsCache.Selector.SelectorWidth = selectorWidth;
-        }
-
-        ImGui.SameLine();
-
-        ItemDetailsWindow.Draw("リスト詳細", DrawAutoGatherListsLine, () =>
-        {
-            if (_autoGatherListsCache.Selector.Selected != null)
-                DrawAutoGatherList(_autoGatherListsCache.Selector.Selected);
-        });
+        using var child = ImRaii.Child("AutoGatherListDetails", Vector2.Zero, true);
+        if (child)
+            DrawAutoGatherList(list);
 
         _autoGatherListsCache.Selector.DrawBaitBuyListResultPopup();
     }
 }
+
 
