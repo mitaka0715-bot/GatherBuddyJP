@@ -64,6 +64,7 @@ function Set-JsonMetadata {
     $json.Description = $Description
     $json.Punchline = $Punchline
     $json.IconUrl = $IconUrl
+    $json.Tags = @("Gathering", "Mining", "Botany", "Automatic", "Forager", "Japanese")
     $json.AcceptsFeedback = $true
     if ($null -eq $json.TestingDalamudApiLevel -and $null -ne $json.DalamudApiLevel) {
         $json | Add-Member -NotePropertyName TestingDalamudApiLevel -NotePropertyValue $json.DalamudApiLevel
@@ -83,6 +84,11 @@ function Ensure-JpMetadata {
     $csproj = [regex]::Replace($csproj, "<Author>.*?</Author>", "<Author>$Author</Author>")
     $csproj = [regex]::Replace($csproj, "<Description>.*?</Description>", "<Description>$Description</Description>")
     $csproj = [regex]::Replace($csproj, "<Punchline>.*?</Punchline>", "<Punchline>$Punchline</Punchline>")
+    if ($csproj -match "<IconUrl>.*?</IconUrl>") {
+        $csproj = [regex]::Replace($csproj, "<IconUrl>.*?</IconUrl>", "<IconUrl>$IconUrl</IconUrl>")
+    } else {
+        $csproj = [regex]::Replace($csproj, "(<Punchline>.*?</Punchline>)", "`$1`r`n    <IconUrl>$IconUrl</IconUrl>")
+    }
     Save-Utf8NoBom -Path $csprojPath -Text $csproj
 }
 
