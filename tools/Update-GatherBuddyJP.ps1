@@ -23,7 +23,7 @@ $InternalName = "GatherBuddyJP"
 $PluginName = "GatherBuddy JP"
 $Author = "General Headquarters"
 $RepoUrl = "https://github.com/mitaka0715-bot/GatherBuddyJP"
-$IconUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png?v=20260601"
+$IconUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png"
 $ZipUrl = "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip"
 $Punchline = "Miner and botanist focused GatherBuddy JP fork."
 $Description = "A Japanese-localized miner and botanist focused fork based on GatherBuddy Reborn. Supports gatherable item search, auto-gather lists, teleport-assisted movement, and vnavmesh navigation. Fishing UI entry points are hidden in this build."
@@ -121,9 +121,12 @@ function Update-RepoJson {
         IconUrl = $IconUrl
         AcceptsFeedback = $true
     }
-    $storeJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
-    Save-Utf8NoBom -Path $repoPath -Text $storeJson
-    Save-Utf8NoBom -Path $pluginMasterPath -Text $storeJson
+    $visibleStoreJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
+    Save-Utf8NoBom -Path $pluginMasterPath -Text $visibleStoreJson
+
+    $entry.IsHide = $true
+    $hiddenStoreJson = (ConvertTo-Json -InputObject @($entry) -Depth 8) + [Environment]::NewLine
+    Save-Utf8NoBom -Path $repoPath -Text $hiddenStoreJson
 }
 
 function New-CleanPluginZip {
@@ -259,7 +262,7 @@ try {
     if ($Publish -and ($status.built -or $status.applied -or $Force)) {
         $changes = git status --porcelain
         if ($changes) {
-            Invoke-Git add manifest.json repo.json pluginmaster.json latest.zip README.md images/icon.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
+            Invoke-Git add manifest.json repo.json pluginmaster.json latest.zip README.md images/icon.png images/icon-512.png GatherBuddy/GatherBuddy.csproj GatherBuddy/GatherBuddyReborn.json tools/Update-GatherBuddyJP.ps1
             $shortUpstream = (git rev-parse --short upstream/main)
             Invoke-Git commit -m "Update GatherBuddy JP for upstream $shortUpstream"
         }

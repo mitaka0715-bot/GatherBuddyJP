@@ -31,8 +31,8 @@
         "DownloadLinkInstall":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
         "DownloadLinkUpdate":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
         "DownloadLinkTesting":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
-        "LastUpdate":  1780247296,
-        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png?v=20260601",
+        "LastUpdate":  1780247701,
+        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png",
         "AcceptsFeedback":  true
     }
 ]

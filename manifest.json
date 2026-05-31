@@ -22,7 +22,7 @@
                          "Utility"
                      ],
     "IsTestingExclusive":  false,
-    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon.png?v=20260601",
+    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png",
     "Punchline":  "Miner and botanist focused GatherBuddy JP fork.",
     "AcceptsFeedback":  true
 }

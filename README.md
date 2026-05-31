@@ -28,14 +28,14 @@ Dalamud の設定画面を開きます。
 4. 下のURLを追加
 
 ```text
-https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/repo.json
+https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/pluginmaster.json
 ```
 
 追加後、Plugin Installer の一覧から `GatherBuddy JP` をインストールできます。
 
 ## 配布ファイル
 
-- `repo.json`: Dalamud カスタムリポジトリ用JSON
+- `pluginmaster.json`: Dalamud カスタムリポジトリ用JSON
 - `latest.zip`: Dalamud がインストール時に取得するプラグインZIP
 - `GatherBuddyJP.json`: プラグインmanifest
 
