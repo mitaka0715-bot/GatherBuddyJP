@@ -254,6 +254,10 @@ public partial class Interface
             GatherBuddy.AutoGather.Enabled = enabled;
 
         ImGui.SameLine();
+        if (ImGui.Button("停止##HeaderStop"))
+            GatherBuddy.AutoGather.Enabled = false;
+
+        ImGui.SameLine();
         var statusColor = enabled
             ? new Vector4(0.25f, 0.90f, 0.65f, 1f)
             : new Vector4(0.72f, 0.72f, 0.72f, 1f);

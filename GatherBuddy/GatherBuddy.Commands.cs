@@ -94,6 +94,18 @@ public partial class GatherBuddy
             ShowInHelp = false,
         };
 
+        _commands["/gbjpstart"] = new CommandInfo(OnAutoGatherStart)
+        {
+            HelpMessage = "自動採集を開始します。",
+            ShowInHelp  = true,
+        };
+
+        _commands["/gbjpstop"] = new CommandInfo(OnAutoGatherStop)
+        {
+            HelpMessage = "自動採集を停止します。",
+            ShowInHelp  = true,
+        };
+
         _commands["/vulcan"] = new CommandInfo(OnVulcan)
         {
             HelpMessage = "Open the Vulcan crafting interface. Use with a list ID/name to jump to that list, or 'craft <recipeId|name> [qty]' to start the full gather+craft pipeline immediately.",
@@ -171,6 +183,18 @@ public partial class GatherBuddy
             Communicator.NoItemName(command, "fish");
         else
             Executor.GatherFishByName(arguments);
+    }
+
+    private void OnAutoGatherStart(string command, string arguments)
+    {
+        AutoGather.Enabled = true;
+        Communicator.Print("自動採集を開始しました。");
+    }
+
+    private void OnAutoGatherStop(string command, string arguments)
+    {
+        AutoGather.Enabled = false;
+        Communicator.Print("自動採集を停止しました。");
     }
 
     private void OnGatherGroup(string command, string arguments)

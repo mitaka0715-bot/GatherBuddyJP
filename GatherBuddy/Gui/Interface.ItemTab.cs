@@ -27,7 +27,6 @@ public partial class Interface
         private static float _levelColumnWidth;
         private static float _jobColumnWidth;
         private static float _typeColumnWidth;
-        private static float _expansionColumnWidth;
         private static float _folkloreColumnWidth;
         private static float _uptimeColumnWidth;
         private static float _bestNodeColumnWidth;
@@ -55,7 +54,6 @@ public partial class Interface
                     Enum.GetNames<GatheringType>().Where(s => s != "Spearfishing").Max(TextWidth) / Scale);
                 _typeColumnWidth = Math.Max(TextWidth(_typeColumn.Label) / Scale + Table.ArrowWidth,
                     Enum.GetNames<NodeType>().Max(TextWidth) / Scale);
-                _expansionColumnWidth   = TextWidth(_expansionColumn.Label) / Scale + Table.ArrowWidth;
                 _folkloreColumnWidth    = Items.Max(i => TextWidth(i.Folklore)) / Scale;
                 _uptimeColumnWidth      = Items.Max(i => TextWidth(i.Uptimes)) / Scale;
                 _bestNodeColumnWidth    = GatherBuddy.GameData.GatheringNodes.Values.Max(a => TextWidth(a.Name)) / Scale;
@@ -136,7 +134,6 @@ public partial class Interface
         private static readonly LevelColumn       _levelColumn       = new() { Label = "Lv" };
         private static readonly JobColumn         _jobColumn         = new() { Label = "採集職" };
         private static readonly TypeColumn        _typeColumn        = new() { Label = "採集場種別" };
-        private static readonly ExpansionColumn   _expansionColumn   = new() { Label = "拡張" };
         private static readonly FolkloreColumn    _folkloreColumn    = new() { Label = "伝承録" };
         private static readonly UptimesColumn     _uptimesColumn     = new() { Label = "出現時間" };
         private static readonly BestNodeColumn    _bestNodeColumn    = new() { Label = "最適採集場" };
@@ -517,10 +514,13 @@ public partial class Interface
                 => _jobColumnWidth * ImGuiHelpers.GlobalScale;
 
             public JobColumn()
-                => SetFlagsAndNames(ItemFilter.Mining, ItemFilter.Quarrying, ItemFilter.Logging, ItemFilter.Harvesting);
+            {
+                SetFlags(ItemFilter.Mining, ItemFilter.Quarrying, ItemFilter.Logging, ItemFilter.Harvesting);
+                SetNames("採掘", "砕岩", "伐採", "草刈");
+            }
 
             public override void DrawColumn(ExtendedGatherable item, int _)
-                => ImGui.Text(item.Data.GatheringType.ToString());
+                => ImGui.Text(GetGatheringTypeLabel(item.Data.GatheringType));
 
             public override int Compare(ExtendedGatherable lhs, ExtendedGatherable rhs)
                 => lhs.Data.GatheringType.CompareTo(rhs.Data.GatheringType);
@@ -547,10 +547,13 @@ public partial class Interface
                 => _typeColumnWidth * ImGuiHelpers.GlobalScale;
 
             public TypeColumn()
-                => SetFlagsAndNames(ItemFilter.Regular, ItemFilter.Unspoiled, ItemFilter.Ephemeral, ItemFilter.Legendary, ItemFilter.Clouded);
+            {
+                SetFlags(ItemFilter.Regular, ItemFilter.Unspoiled, ItemFilter.Ephemeral, ItemFilter.Legendary, ItemFilter.Clouded);
+                SetNames("通常", "未知", "刻限", "伝説", "雲海");
+            }
 
             public override void DrawColumn(ExtendedGatherable item, int _)
-                => ImGui.Text(item.Data.NodeType.ToString());
+                => ImGui.Text(GetNodeTypeLabel(item.Data.NodeType));
 
             public override int Compare(ExtendedGatherable lhs, ExtendedGatherable rhs)
                 => lhs.Data.NodeType.CompareTo(rhs.Data.NodeType);
@@ -569,38 +572,30 @@ public partial class Interface
             }
         }
 
-        private sealed class ExpansionColumn : ItemFilterColumn
-        {
-            public override float Width
-                => _expansionColumnWidth * ImGuiHelpers.GlobalScale;
 
-            public ExpansionColumn()
+        private static string GetGatheringTypeLabel(GatheringType type)
+            => type switch
             {
-                SetFlags(ItemFilter.ARealmReborn, ItemFilter.Heavensward, ItemFilter.Stormblood, ItemFilter.Shadowbringers,
-                    ItemFilter.Endwalker, ItemFilter.Dawntrail);
-                SetNames("A Realm Reborn", "Heavensward", "Stormblood", "Shadowbringers", "Endwalker", "Dawntrail");
-            }
+                GatheringType.Mining     => "採掘",
+                GatheringType.Quarrying  => "砕岩",
+                GatheringType.Logging    => "伐採",
+                GatheringType.Harvesting => "草刈",
+                GatheringType.Miner      => "採掘師",
+                GatheringType.Botanist   => "園芸師",
+                GatheringType.Multiple   => "複数",
+                _                        => type.ToString(),
+            };
 
-            public override void DrawColumn(ExtendedGatherable item, int _)
-                => ImGui.Text(item.Expansion);
-
-            public override int Compare(ExtendedGatherable lhs, ExtendedGatherable rhs)
-                => lhs.Data.ExpansionIdx.CompareTo(rhs.Data.ExpansionIdx);
-
-            public override bool FilterFunc(ExtendedGatherable item)
+        private static string GetNodeTypeLabel(NodeType type)
+            => type switch
             {
-                return item.Data.ExpansionIdx switch
-                {
-                    0 => FilterValue.HasFlag(ItemFilter.ARealmReborn),
-                    1 => FilterValue.HasFlag(ItemFilter.Heavensward),
-                    2 => FilterValue.HasFlag(ItemFilter.Stormblood),
-                    3 => FilterValue.HasFlag(ItemFilter.Shadowbringers),
-                    4 => FilterValue.HasFlag(ItemFilter.Endwalker),
-                    5 => FilterValue.HasFlag(ItemFilter.Dawntrail),
-                    _ => false,
-                };
-            }
-        }
+                NodeType.Regular   => "通常",
+                NodeType.Unspoiled => "未知",
+                NodeType.Ephemeral => "刻限",
+                NodeType.Legendary => "伝説",
+                NodeType.Clouded   => "雲海",
+                _                  => type.ToString(),
+            };
 
         private sealed class FolkloreColumn : ItemValueFilterColumn<uint>
         {
@@ -747,7 +742,7 @@ public partial class Interface
             : base("ItemTable",
                 GatherBuddy.GameData.Gatherables.Values.Where(g => g.GatheringType != GatheringType.Unknown)
                     .Select(g => new ExtendedGatherable(g)).ToList(), _nameColumn, _gatheredColumn, _levelingColumn, _nextUptimeColumn, _aetheryteColumn,
-                _levelColumn, _jobColumn, _typeColumn, _expansionColumn, _folkloreColumn, _uptimesColumn, _bestNodeColumn, _bestZoneColumn,
+                _levelColumn, _jobColumn, _typeColumn, _folkloreColumn, _uptimesColumn, _bestNodeColumn, _bestZoneColumn,
                 _itemIdColumn, _gatheringIdColumn)
         {
             Sortable                               =  true;
@@ -776,8 +771,7 @@ public partial class Interface
     {
         using var id  = ImRaii.PushId("Gatherables");
         using var tab = ImRaii.TabItem("採集アイテム");
-        ImGuiUtil.HoverTooltip("採掘・園芸で採れるアイテムの一覧です。\n"
-          + "採集場所、最寄りエーテライト、出現時間を確認できます。");
+        ImGuiUtil.HoverTooltip("採掘・園芸で採れるアイテム一覧です。採集場、エーテライト、出現時間を確認できます。");
         if (!tab)
             return;
 
@@ -786,6 +780,5 @@ public partial class Interface
         _itemTable.Draw(ImGui.GetTextLineHeightWithSpacing());
         DrawAddAllFilteredToAutoGather(_itemTable, g => g.Data, "Gatherables");
         DrawStatusLine(_itemTable, "Items");
-        DrawClippy();
     }
 }

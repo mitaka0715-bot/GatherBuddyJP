@@ -346,15 +346,15 @@ public class Executor
                 return true;
             case GatherBuddy.AutoCommand:
                 GatherBuddy.AutoGather.Enabled = !GatherBuddy.AutoGather.Enabled;
-                Communicator.Print(GatherBuddy.AutoGather.Enabled ? "Auto-gathering enabled." : "Auto-gathering disabled.");
+                Communicator.Print(GatherBuddy.AutoGather.Enabled ? "自動採集を開始しました。" : "自動採集を停止しました。");
                 return true;
             case GatherBuddy.AutoOnCommand:
                 GatherBuddy.AutoGather.Enabled = true;
-                Communicator.Print("Auto-gathering enabled.");
+                Communicator.Print("自動採集を開始しました。");
                 return true;
             case GatherBuddy.AutoOffCommand:
                 GatherBuddy.AutoGather.Enabled = false;
-                Communicator.Print("Auto-gathering disabled.");
+                Communicator.Print("自動採集を停止しました。");
                 return true;
             default: return false;
         }
