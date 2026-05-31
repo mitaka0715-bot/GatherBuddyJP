@@ -3,7 +3,7 @@
         "Author":  "General Headquarters",
         "Name":  "GatherBuddy JP",
         "InternalName":  "GatherBuddyJP",
-        "AssemblyVersion":  "7.5.0.2",
+        "AssemblyVersion":  "7.5.0.3",
         "TestingAssemblyVersion":  null,
         "RepoUrl":  "https://github.com/mitaka0715-bot/GatherBuddyJP",
         "ApplicableVersion":  "any",
@@ -31,7 +31,7 @@
         "DownloadLinkInstall":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
         "DownloadLinkUpdate":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
         "DownloadLinkTesting":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
-        "LastUpdate":  1780249843,
+        "LastUpdate":  1780249985,
         "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/images/icon-512.png",
         "AcceptsFeedback":  true
     }
