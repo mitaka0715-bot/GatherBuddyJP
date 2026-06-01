@@ -301,7 +301,7 @@ public partial class Interface
     private static void DrawMissingTimesHint(bool missingTimes)
     {
         if (missingTimes)
-            ImGuiUtil.DrawTextButton("Not all minutes have a corresponding item.", new Vector2(-ImGui.GetStyle().WindowPadding.X, 0),
+            ImGuiUtil.DrawTextButton("時間帯に対応する採集アイテムがない箇所があります。", new Vector2(-ImGui.GetStyle().WindowPadding.X, 0),
                 ColorId.WarningBg.Value());
     }
 
@@ -415,14 +415,14 @@ public partial class Interface
             }
         }
 
-        if (ImGuiUtil.DrawDisabledButton("Create Auto-Gather List", Vector2.Zero, "Create a new Auto-Gather List from this gather group.",
+        if (ImGuiUtil.DrawDisabledButton("自動採集リストを作成", Vector2.Zero, "この採集グループから自動採集リストを作成します。",
                 _gatherGroupCache.Selector.Current == null))
         {
             var preset = new AutoGatherList(_gatherGroupCache.Selector.Current!);
             _plugin.AutoGatherListsManager.AddList(preset);
         }
 
-        if (ImGuiUtil.DrawDisabledButton("Create Window Preset", Vector2.Zero, "Create a new Gather Window Preset from this gather group.",
+        if (ImGuiUtil.DrawDisabledButton("採集ウィンドウ用プリセットを作成", Vector2.Zero, "この採集グループから採集ウィンドウ用プリセットを作成します。",
                 _gatherGroupCache.Selector.Current == null))
         {
             var preset = new GatherWindowPreset(_gatherGroupCache.Selector.Current!);
@@ -431,7 +431,7 @@ public partial class Interface
 
         var       holdingCtrl = ImGui.GetIO().KeyCtrl;
         using var color       = ImRaii.PushColor(ImGuiCol.ButtonHovered, 0x8000A000, holdingCtrl);
-        if (ImGui.Button("Restore Default Groups") && holdingCtrl && _plugin.GatherGroupManager.SetDefaults(true))
+        if (ImGui.Button("標準グループを復元") && holdingCtrl && _plugin.GatherGroupManager.SetDefaults(true))
         {
             _gatherGroupCache.Selector.TryRestoreCurrent();
             _plugin.GatherGroupManager.Save();
@@ -442,9 +442,9 @@ public partial class Interface
 
         ImGui.SameLine();
 
-        ImGuiComponents.HelpMarker("Use /gathergroup [name] [optional:minute offset] to call a group.\n"
-          + "This will /gather the item that is up currently (or [minute offset] eorzea minutes in the future).\n"
-          + "If times for multiple items overlap, the first item from top to bottom will be gathered.");
+        ImGuiComponents.HelpMarker("/gathergroup [名前] [任意:分オフセット] でグループを呼び出します。\n"
+          + "現在出現中、または指定したエオルゼア分だけ先に出現するアイテムを採集します。\n"
+          + "複数の時間帯が重なる場合は、上にあるアイテムが優先されます。");
     }
 
     private void DrawGatherGroupTab()

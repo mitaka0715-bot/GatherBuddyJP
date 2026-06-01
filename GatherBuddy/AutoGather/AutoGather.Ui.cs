@@ -25,13 +25,19 @@ namespace GatherBuddy.AutoGather
     {
         public static void DrawAutoGatherStatus()
         {
-            var enabled = GatherBuddy.AutoGather.Enabled;
-            if (ImGui.Checkbox("Enabled", ref enabled))
+            if (GatherBuddy.AutoGather.Enabled)
             {
-                GatherBuddy.AutoGather.Enabled = enabled;
+                if (ImGui.Button("停止"))
+                    GatherBuddy.AutoGather.Enabled = false;
+            }
+            else
+            {
+                if (ImGui.Button("開始"))
+                    GatherBuddy.AutoGather.Enabled = true;
             }
 
-            ImGui.Text($"Status: {GatherBuddy.AutoGather.AutoStatus}");
+            ImGui.SameLine();
+            ImGui.Text($"状態: {GatherBuddy.AutoGather.AutoStatus}");
         }
 
 

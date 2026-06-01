@@ -26,13 +26,13 @@ namespace GatherBuddy.AutoGather
         public bool DoMaterialize { get; set; } = false;
         public bool DoReduce { get; set; } = false;
         public bool AlwaysReduceAllItems { get; set; } = false;
-        public bool DoRepair { get; set; } = false;
-        public int RepairThreshold { get; set; } = 50;
+        public bool DoRepair { get; set; } = true;
+        public int RepairThreshold { get; set; } = 30;
         public bool HonkMode { get; set; } = true;
         public SortingType SortingMethod { get; set; } = SortingType.Location;
         public bool TeleportToNextNode { get; set; } = false;
-        public bool GoHomeWhenIdle { get; set; } = true;
-        public bool GoHomeWhenDone { get; set; } = true;
+        public bool GoHomeWhenIdle { get; set; } = false;
+        public bool GoHomeWhenDone { get; set; } = false;
         public bool UseSkillsForFallbackItems { get; set; } = false;
         public bool AbandonNodes { get; set; } = false;
         public uint ExecutionDelay { get; set; } = 0;

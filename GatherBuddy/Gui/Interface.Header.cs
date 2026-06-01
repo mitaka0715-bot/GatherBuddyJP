@@ -245,23 +245,26 @@ public partial class Interface
         ImGui.TextUnformatted("GatherBuddy JP");
 
         ImGui.SameLine();
-        if (ImGui.Button("設定##HeaderConfig"))
+        if (ImGui.Button("\u8A2D\u5B9A##HeaderConfig"))
             _selectConfigTab = true;
 
         ImGui.SameLine();
         var enabled = GatherBuddy.AutoGather.Enabled;
-        if (ImGui.Checkbox("自動採集##HeaderAutoGather", ref enabled))
-            GatherBuddy.AutoGather.Enabled = enabled;
-
-        ImGui.SameLine();
-        if (ImGui.Button("停止##HeaderStop"))
-            GatherBuddy.AutoGather.Enabled = false;
+        if (enabled)
+        {
+            if (ImGui.Button("\u505C\u6B62##HeaderStop"))
+                GatherBuddy.AutoGather.Enabled = false;
+        }
+        else if (ImGui.Button("\u958B\u59CB##HeaderStart"))
+        {
+            GatherBuddy.AutoGather.Enabled = true;
+        }
 
         ImGui.SameLine();
         var statusColor = enabled
             ? new Vector4(0.25f, 0.90f, 0.65f, 1f)
             : new Vector4(0.72f, 0.72f, 0.72f, 1f);
-        ImGui.TextColored(statusColor, $"状態: {GatherBuddy.AutoGather.AutoStatus}");
+        ImGui.TextColored(statusColor, $"\u72B6\u614B: {GatherBuddy.AutoGather.AutoStatus}");
 
         ImGui.Separator();
     }

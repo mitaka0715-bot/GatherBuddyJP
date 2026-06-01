@@ -149,6 +149,11 @@ public partial class GatherBuddy : IDalamudPlugin
             Config.AlarmsEnabled = false;
             Config.ShowFishTimer = false;
             Config.ShowSpearfishHelper = false;
+            Config.AutoGatherConfig.DoRepair = true;
+            Config.AutoGatherConfig.RepairThreshold = 30;
+            Config.AutoGatherConfig.GoHomeWhenIdle = false;
+            Config.AutoGatherConfig.GoHomeWhenDone = false;
+            Config.Save();
             AlarmManager.Disable();
             CraftingListManager   = new Crafting.CraftingListManager();
             MarketboardService    = new MarketboardService();
