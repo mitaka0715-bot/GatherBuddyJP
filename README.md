@@ -1,41 +1,49 @@
 # GatherBuddy JP
 
-GatherBuddy JP は、採掘師・園芸師向けに作った日本語ファーストの採集ナビゲーションプラグインです。
+GatherBuddy JP is a Japanese-first fork/custom build of GatherBuddy for FFXIV Dalamud.
 
-## 概要
+This build focuses on Japanese UI text and convenience adjustments for gathering navigation, auto-gather lists, teleport-assisted movement, and vnavmesh-assisted travel.
 
-- 採掘師 / 園芸師向けの採集アイテム検索
-- 自動採集リスト
-- vnavmesh を使ったテレポ後の移動
-- 採集ウィンドウの操作支援
-  
+## Features
 
-## 必須プラグイン
+- Japanese-oriented gather item search and UI labels
+- Auto-gather list handling
+- Teleport-assisted route movement
+- vnavmesh-assisted movement
+- Gather window and auto-gather UI adjustments
+- Optional behavior to prioritize only the currently selected auto-gather list
+
+## Required Plugins
 
 - vnavmesh
 
-自動移動を使う場合は vnavmesh が必要です。
+Some movement features require vnavmesh to be installed and working.
 
-## Dalamud への追加方法
+## Install
 
-Dalamud の設定画面を開きます。
-
-1. `/xlsettings`
-2. `Experimental`
-3. `Custom Plugin Repositories`
-4. 下のURLを追加
+Add this URL to Dalamud custom plugin repositories:
 
 ```text
 https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/pluginmaster.json
 ```
 
-追加後、Plugin Installer の一覧から `GatherBuddy JP` をインストールできます。
+Then install `GatherBuddy JP` from the Dalamud Plugin Installer.
 
-## 配布ファイル
+## Disclaimer
 
-- `pluginmaster.json`: Dalamud カスタムリポジトリ用JSON
-- `latest.zip`: Dalamud がインストール時に取得するプラグインZIP
-- `GatherBuddyJP.json`: プラグインmanifest
+This project is an unofficial personal/custom plugin build.
+
+It is not affiliated with, endorsed by, or supported by Square Enix, XIVLauncher, Dalamud, the original GatherBuddy project, or any related plugin authors.
+
+Use this plugin at your own risk. Third-party tools, automation, custom plugins, and modified plugin builds may violate game rules, service terms, or community/server policies depending on how they are used. You are responsible for understanding and accepting those risks before installing or using this plugin.
+
+No warranty is provided. The author is not responsible for account actions, game crashes, data loss, plugin conflicts, broken behavior after game/plugin updates, or any other damage caused directly or indirectly by this plugin.
+
+## Distribution Files
+
+- `pluginmaster.json`: Dalamud custom repository metadata
+- `latest.zip`: Plugin package downloaded by Dalamud
+- `GatherBuddyJP.json`: Plugin manifest included in the package
 
 ## Author
 
