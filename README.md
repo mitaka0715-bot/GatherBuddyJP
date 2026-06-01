@@ -29,6 +29,24 @@ https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/pluginmaster
 
 Then install `GatherBuddy JP` from the Dalamud Plugin Installer.
 
+## Usage Notes
+
+### Auto-gather lists
+
+If you stop or interrupt auto-gathering before the requested quantity is completed, the unfinished auto-gather list may remain enabled.
+
+When an unfinished list remains enabled, GatherBuddy JP may continue gathering items from that old list the next time auto-gathering is started.
+
+Before starting a new gathering target, delete or disable the previous unfinished list if you do not want it to continue.
+
+### 日本語メモ
+
+設定した個数を取り切る前に中断した場合、前回の自動採取リストが残ったままになることがあります。
+
+その状態で次の採取を始めると、前回残っているリストのアイテムを先に採取しに行く場合があります。
+
+新しいアイテムを採取し直す場合は、前回の未完了リストを削除するか、無効化してから開始してください。
+
 ## Disclaimer
 
 This project is an unofficial personal/custom plugin build.
