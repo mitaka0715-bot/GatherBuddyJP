@@ -109,10 +109,33 @@ public partial class AutoGatherListsManager
             return;
         }
         
-        list.Enabled = !list.Enabled;
+        var nextEnabled = !list.Enabled;
+        list.Enabled = nextEnabled;
+        if (nextEnabled && GatherBuddy.Config.AutoGatherConfig.OnlyUseCurrentAutoGatherList)
+            DisableOtherLists(list);
         Save();
         if (list.Items.Count > 0)
             SetActiveItems();
+    }
+
+    public void UseOnlyList(AutoGatherList list)
+    {
+        if (!ValidateFishingBait(list) || !ValidateGatherablePerception(list))
+            return;
+
+        list.Enabled = true;
+        DisableOtherLists(list);
+        Save();
+        SetActiveItems();
+    }
+
+    private void DisableOtherLists(AutoGatherList activeList)
+    {
+        foreach (var list in Lists)
+        {
+            if (!ReferenceEquals(list, activeList))
+                list.Enabled = false;
+        }
     }
     
     private unsafe bool ValidateFishingBait(AutoGatherList list)

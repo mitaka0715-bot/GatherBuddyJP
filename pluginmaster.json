@@ -1,36 +1,34 @@
-[
-    {
-        "Author":  "General Headquarters",
-        "Name":  "GatherBuddy JP",
-        "InternalName":  "GatherBuddyJP",
-        "AssemblyVersion":  "7.5.0.8",
-        "TestingAssemblyVersion":  null,
-        "RepoUrl":  "https://github.com/mitaka0715-bot/GatherBuddyJP",
-        "ApplicableVersion":  "any",
-        "DalamudApiLevel":  15,
-        "TestingDalamudApiLevel":  15,
-        "Punchline":  "Japanese-first gathering navigator for miners and botanists.",
-        "Description":  "GatherBuddy JP is a Japanese-first gathering navigation plugin for miners and botanists. It provides item search, route planning, teleport-assisted travel, auto-gather lists, and vnavmesh-assisted movement.",
-        "Tags":  [
-                     "Gathering",
-                     "Mining",
-                     "Botany",
-                     "Automatic",
-                     "Forager",
-                     "Japanese"
-                 ],
-        "CategoryTags":  [
-                             "Jobs",
-                             "Utility"
-                         ],
-        "IsHide":  false,
-        "IsTestingExclusive":  false,
-        "DownloadCount":  0,
-        "DownloadLinkInstall":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
-        "DownloadLinkUpdate":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
-        "DownloadLinkTesting":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
-        "LastUpdate":  1780285336,
-        "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon-v2.png",
-        "AcceptsFeedback":  true
-    }
-]
+﻿{
+    "Author":  "General Headquarters",
+    "Name":  "GatherBuddy JP",
+    "InternalName":  "GatherBuddyJP",
+    "AssemblyVersion":  "7.5.0.9",
+    "TestingAssemblyVersion":  null,
+    "RepoUrl":  "https://github.com/mitaka0715-bot/GatherBuddyJP",
+    "ApplicableVersion":  "any",
+    "DalamudApiLevel":  15,
+    "TestingDalamudApiLevel":  15,
+    "Punchline":  "Japanese-first gathering navigator for miners and botanists.",
+    "Description":  "GatherBuddy JP is a Japanese-first gathering navigation plugin for miners and botanists. It provides item search, route planning, teleport-assisted travel, auto-gather lists, and vnavmesh-assisted movement.",
+    "Tags":  [
+                 "Gathering",
+                 "Mining",
+                 "Botany",
+                 "Automatic",
+                 "Forager",
+                 "Japanese"
+             ],
+    "CategoryTags":  [
+                         "Jobs",
+                         "Utility"
+                     ],
+    "IsHide":  false,
+    "IsTestingExclusive":  false,
+    "DownloadCount":  0,
+    "DownloadLinkInstall":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+    "DownloadLinkUpdate":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+    "DownloadLinkTesting":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/latest.zip",
+    "LastUpdate":  1780299739,
+    "IconUrl":  "https://raw.githubusercontent.com/mitaka0715-bot/GatherBuddyJP/main/icon-v2.png",
+    "AcceptsFeedback":  true
+}

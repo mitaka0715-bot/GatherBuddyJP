@@ -16,6 +16,7 @@ using GatherBuddy.Gui;
 using GatherBuddy.Interfaces;
 using GatherBuddy.Time;
 using ElliLib;
+using AutoGatherUIAlias = GatherBuddy.AutoGather.AutoGatherUI;
 using Functions = GatherBuddy.Plugin.Functions;
 using ImRaii = ElliLib.Raii.ImRaii;
 
@@ -368,7 +369,7 @@ public class GatherWindow : Window
     {
         var       colorId = GatherBuddy.AutoGather.Enabled ? ColorId.GatherWindowAvailable.Value() : ColorId.GatherWindowText.Value();
         using var color = ImRaii.PushColor(ImGuiCol.Text, colorId);
-        if (ImGui.Selectable($"Auto-Gather: {GatherBuddy.AutoGather.AutoStatus}###toggle-button"))
+        if (ImGui.Selectable($"自動採取: {AutoGatherUIAlias.ToJapaneseStatus(GatherBuddy.AutoGather.AutoStatus)}###toggle-button"))
         {
             GatherBuddy.AutoGather.Enabled = !GatherBuddy.AutoGather.Enabled;
         }
@@ -377,7 +378,7 @@ public class GatherWindow : Window
             _plugin.Interface.Toggle();
         }
         color.Pop();
-        ImGuiUtil.HoverTooltip("Click to enable/disable auto-gather. Right click to toggle interface");
+        ImGuiUtil.HoverTooltip("左クリックで自動採取のON/OFFを切り替え。右クリックで設定画面を開閉します。");
         using var table = ImRaii.Table("##table", GatherBuddy.Config.ShowGatherWindowTimers ? 2 : 1);
         if (!table)
             return;

@@ -25,20 +25,60 @@ namespace GatherBuddy.AutoGather
     {
         public static void DrawAutoGatherStatus()
         {
-            if (GatherBuddy.AutoGather.Enabled)
+            var enabled = GatherBuddy.AutoGather.Enabled;
+            if (ImGui.Checkbox("自動採取", ref enabled))
             {
-                if (ImGui.Button("停止"))
-                    GatherBuddy.AutoGather.Enabled = false;
-            }
-            else
-            {
-                if (ImGui.Button("開始"))
-                    GatherBuddy.AutoGather.Enabled = true;
+                GatherBuddy.AutoGather.Enabled = enabled;
             }
 
             ImGui.SameLine();
-            ImGui.Text($"状態: {GatherBuddy.AutoGather.AutoStatus}");
+            var doRepair = GatherBuddy.Config.AutoGatherConfig.DoRepair;
+            if (ImGui.Checkbox("自動修理", ref doRepair))
+            {
+                GatherBuddy.Config.AutoGatherConfig.DoRepair = doRepair;
+                GatherBuddy.Config.Save();
+            }
+            if (ImGui.IsItemHovered())
+                ImGui.SetTooltip("装備耐久がしきい値以下になったら自動修理します。");
+
+            if (doRepair)
+            {
+                ImGui.SameLine();
+                ImGui.SetNextItemWidth(90);
+                var threshold = GatherBuddy.Config.AutoGatherConfig.RepairThreshold;
+                if (ImGui.DragInt("修理しきい値", ref threshold, 1, 1, 100))
+                {
+                    GatherBuddy.Config.AutoGatherConfig.RepairThreshold = threshold;
+                    GatherBuddy.Config.Save();
+                }
+            }
+
+            ImGui.Text($"状態: {ToJapaneseStatus(GatherBuddy.AutoGather.AutoStatus)}");
         }
+
+        public static string ToJapaneseStatus(string status)
+            => status switch
+            {
+                "Idle" or "Idle..." => "待機中...",
+                "Moving to node..." => "採取ポイントへ移動中...",
+                "Moving to far node..." => "遠い採取ポイントへ移動中...",
+                "Moving to aetheryte..." => "エーテライトへ移動中...",
+                "Generating path..." => "経路を作成中...",
+                "Gathering..." => "採取中...",
+                "Fishing..." => "釣り中...",
+                "Repairing..." => "修理中...",
+                "Refreshing timers..." => "タイマー更新中...",
+                "Player is busy..." => "プレイヤー操作待ち...",
+                "Teleporting..." => "テレポ中...",
+                "Using aethernet..." => "都市内転送中...",
+                "No available items to gather" => "採取できる対象がありません",
+                "Waiting for Gathering Point... (No Nav Mode)" => "採取ポイント待ち...（ナビなし）",
+                "Waiting for Navmesh..." => "ナビメッシュ待ち...",
+                _ when status.StartsWith("Moving to next Diadem node") => "次のディアデム採取ポイントへ移動中...",
+                _ when status.StartsWith("Waiting for retainers") => "リテイナー待ち...",
+                _ when status.StartsWith("Install Lifestream") => "Lifestream が必要です",
+                _ => status,
+            };
 
 
         public static void DrawDebugTables()
@@ -134,7 +174,7 @@ namespace GatherBuddy.AutoGather
                     {
                         if (GatherBuddy.AutoGather.Enabled)
                         {
-                            Communicator.PrintError("[GatherBuddy JP] 自動採集が有効なため移動できません。");
+                            Communicator.PrintError("[GatherBuddyReborn] Auto-Gather is enabled! Unable to navigate.");
                             return;
                         }
                         //VNavmesh_IPCSubscriber.Nav_PathfindCancelAll();
@@ -154,7 +194,7 @@ namespace GatherBuddy.AutoGather
                         {
                             if (GatherBuddy.AutoGather.Enabled)
                             {
-                                Communicator.PrintError("[GatherBuddy JP] 自動採集が有効なため移動できません。");
+                                Communicator.PrintError("[GatherBuddyReborn] Auto-Gather is enabled! Unable to navigate.");
                                 return;
                             }
                             //VNavmesh_IPCSubscriber.Nav_PathfindCancelAll();
@@ -184,10 +224,10 @@ namespace GatherBuddy.AutoGather
             var preview = Dalamud.GameData.GetExcelSheet<Mount>().First(x => x.RowId == GatherBuddy.Config.AutoGatherConfig.AutoGatherMountId)
                 .Singular.ToString().ToProperCase();
             if (string.IsNullOrEmpty(preview))
-                preview = "マウントルーレット";
-            if (ImGui.BeginCombo("マウント選択", preview))
+                preview = "Mount Roulette";
+            if (ImGui.BeginCombo("Select Mount", preview))
             {
-                if (ImGui.Selectable("マウントルーレット", GatherBuddy.Config.AutoGatherConfig.AutoGatherMountId == 0))
+                if (ImGui.Selectable("Mount Roulette", GatherBuddy.Config.AutoGatherConfig.AutoGatherMountId == 0))
                 {
                     GatherBuddy.Config.AutoGatherConfig.AutoGatherMountId = 0;
                     GatherBuddy.Config.Save();

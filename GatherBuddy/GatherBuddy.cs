@@ -146,15 +146,7 @@ public partial class GatherBuddy : IDalamudPlugin
             AlarmManager           = AlarmManager.Load();
             AutoGatherListsManager = AutoGatherListsManager.Load();
             GatherWindowManager    = GatherWindowManager.Load(AlarmManager);
-            Config.AlarmsEnabled = false;
-            Config.ShowFishTimer = false;
-            Config.ShowSpearfishHelper = false;
-            Config.AutoGatherConfig.DoRepair = true;
-            Config.AutoGatherConfig.RepairThreshold = 30;
-            Config.AutoGatherConfig.GoHomeWhenIdle = false;
-            Config.AutoGatherConfig.GoHomeWhenDone = false;
-            Config.Save();
-            AlarmManager.Disable();
+            AlarmManager.ForceEnable();
             CraftingListManager   = new Crafting.CraftingListManager();
             MarketboardService    = new MarketboardService();
             RaphaelSolveCoordinator = new Crafting.RaphaelSolveCoordinator(Config.RaphaelSolverConfig);
@@ -205,6 +197,8 @@ public partial class GatherBuddy : IDalamudPlugin
             NativeItemTooltipBridge = new Gui.NativeItemTooltipBridge();
             WindowSystem.AddWindow(Interface);
             WindowSystem.AddWindow(new GatherWindow(this));
+            WindowSystem.AddWindow(new FishTimerWindow(FishRecorder));
+            WindowSystem.AddWindow(new SpearfishingHelper(GameData));
             WindowSystem.AddWindow(_vulcanWindow);
             WindowSystem.AddWindow(_craftingStatusWindow);
             WindowSystem.AddWindow(_craftingMaterialsWindow);
@@ -271,9 +265,9 @@ public partial class GatherBuddy : IDalamudPlugin
         {
             if (plugin.Name == "GatherBuddy" && plugin.IsLoaded)
             {
-                Log.Error("First Party GatherBuddy detected. Please uninstall it to use GatherBuddy JP.");
+                Log.Error("First Party GatherBuddy detected. Please uninstall it to use this version.");
                 Communicator.PrintError(
-                    "[GatherBuddy JP] 元の GatherBuddy が読み込まれています。GatherBuddy JP を使う場合は元版を外してからゲームを再起動してください。");
+                    "[GatherBuddy Reborn] First Party GatherBuddy detected. Please uninstall it and restart your game to use this version.");
                 break;
             }
         }
